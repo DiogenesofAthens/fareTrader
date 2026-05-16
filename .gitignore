@@ -1,0 +1,22 @@
+# Database (local runtime state — do not commit)
+bookings.db
+bookings.db-shm
+bookings.db-wal
+
+# Playwright error screenshots
+error_*.png
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Environment / secrets
+.env
+.env.*
+
+# macOS
+.DS_Store

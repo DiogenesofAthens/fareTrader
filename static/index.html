@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fareTrader</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+  <!-- Header -->
+  <header class="bg-slate-900 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div>
+        <h1 class="text-white text-xl font-bold tracking-tight">fareTrader</h1>
+        <p class="text-slate-400 text-xs mt-0.5">Delta first-class fare monitor &amp; auto-booker</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <span id="scan-indicator" class="hidden items-center gap-2 text-amber-400 text-sm">
+          <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          </svg>
+          Scanning&hellip;
+        </span>
+        <span id="mode-badge" class="px-3 py-1 rounded-full text-xs font-semibold"></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 py-6 space-y-5">
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="stats-cards">
+      <div class="bg-white rounded-xl border border-slate-200 p-4 animate-pulse h-20"></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4 animate-pulse h-20"></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4 animate-pulse h-20"></div>
+      <div class="bg-white rounded-xl border border-slate-200 p-4 animate-pulse h-20"></div>
+    </div>
+
+    <!-- Main Panel -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+
+      <!-- Tab Nav -->
+      <div class="flex border-b border-slate-200 px-2 overflow-x-auto">
+        <button class="tab-btn px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-colors focus:outline-none whitespace-nowrap" data-tab="overview">Overview</button>
+        <button class="tab-btn px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-colors focus:outline-none whitespace-nowrap" data-tab="bookings">
+          Bookings
+          <span id="held-badge" class="hidden ml-1.5 px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium"></span>
+        </button>
+        <button class="tab-btn px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-colors focus:outline-none whitespace-nowrap" data-tab="prices">Price History</button>
+        <button class="tab-btn px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-colors focus:outline-none whitespace-nowrap" data-tab="scanlog">Scan Log</button>
+      </div>
+
+      <!-- ── Overview Tab ────────────────────────────────────────────────── -->
+      <div id="tab-overview" class="tab-panel p-6">
+        <div class="grid md:grid-cols-2 gap-8">
+
+          <!-- Route config -->
+          <div>
+            <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">Monitored Routes</h2>
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="text-left text-xs text-slate-400 border-b border-slate-100">
+                  <th class="pb-2 font-medium">Route</th>
+                  <th class="pb-2 font-medium">Cabin</th>
+                  <th class="pb-2 font-medium text-right">Threshold</th>
+                  <th class="pb-2 font-medium text-center">Mode</th>
+                </tr>
+              </thead>
+              <tbody id="route-config-body">
+                <tr><td colspan="4" class="py-4 text-center text-slate-400 text-xs">Loading&hellip;</td></tr>
+              </tbody>
+            </table>
+            <p class="mt-3 text-xs text-slate-400" id="date-window-info"></p>
+          </div>
+
+          <!-- Scan control -->
+          <div class="flex flex-col gap-4">
+            <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Scan Control</h2>
+            <button id="scan-btn"
+              class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              Run Scan
+            </button>
+            <p id="scan-mode-note" class="text-xs text-slate-400 text-center -mt-2"></p>
+
+            <div id="scan-result-card" class="hidden rounded-lg border p-4 text-sm"></div>
+
+            <div class="text-xs text-slate-400 space-y-1">
+              <p>Last scan: <span id="last-scan-time" class="text-slate-600">—</span></p>
+              <p>Auto-scan interval: <span id="scan-interval" class="text-slate-600">—</span> min</p>
+              <p>eCredit buffer: <span id="ecredit-buffer" class="text-slate-600">—</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Bookings Tab ────────────────────────────────────────────────── -->
+      <div id="tab-bookings" class="tab-panel p-6 hidden">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex gap-1 bg-slate-100 rounded-lg p-1">
+            <button class="booking-filter px-3 py-1.5 text-xs font-medium rounded-md" data-filter="held">Held</button>
+            <button class="booking-filter px-3 py-1.5 text-xs font-medium rounded-md" data-filter="all">All</button>
+            <button class="booking-filter px-3 py-1.5 text-xs font-medium rounded-md" data-filter="cancelled">Cancelled</button>
+          </div>
+          <button onclick="loadBookings()" class="text-xs text-blue-600 hover:text-blue-800 focus:outline-none">Refresh</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-400 border-b border-slate-100">
+                <th class="pb-2 pr-4 font-medium">PNR</th>
+                <th class="pb-2 pr-4 font-medium">Route</th>
+                <th class="pb-2 pr-4 font-medium">Cabin</th>
+                <th class="pb-2 pr-4 font-medium">Travel Date</th>
+                <th class="pb-2 pr-4 font-medium text-right">Price</th>
+                <th class="pb-2 pr-4 font-medium">Cancel By</th>
+                <th class="pb-2 pr-4 font-medium">Status</th>
+                <th class="pb-2 font-medium"></th>
+              </tr>
+            </thead>
+            <tbody id="bookings-body">
+              <tr><td colspan="8" class="py-12 text-center text-slate-400">Loading&hellip;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Price History Tab ──────────────────────────────────────────── -->
+      <div id="tab-prices" class="tab-panel p-6 hidden">
+        <div class="flex flex-wrap items-end gap-4 mb-5">
+          <div>
+            <label class="text-xs font-medium text-slate-500 block mb-1">Route</label>
+            <select id="route-select"
+              class="text-sm border border-slate-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-[260px]">
+              <option value="">All routes</option>
+            </select>
+          </div>
+          <button onclick="loadPriceData()" class="text-xs text-blue-600 hover:text-blue-800 focus:outline-none pb-2">Refresh</button>
+        </div>
+
+        <div class="relative mb-6" style="min-height:220px">
+          <canvas id="price-chart"></canvas>
+          <div id="price-empty" class="hidden absolute inset-0 flex items-center justify-center text-slate-400 text-sm">
+            No upcoming price data for this route. Run a scan to populate.
+          </div>
+        </div>
+
+        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2">Recent Observations</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-400 border-b border-slate-100">
+                <th class="pb-2 pr-4 font-medium">Travel Date</th>
+                <th class="pb-2 pr-4 font-medium">Route</th>
+                <th class="pb-2 pr-4 font-medium">Cabin</th>
+                <th class="pb-2 pr-4 font-medium text-right">Price</th>
+                <th class="pb-2 pr-4 font-medium">Source</th>
+                <th class="pb-2 font-medium">Scanned At</th>
+              </tr>
+            </thead>
+            <tbody id="price-history-body">
+              <tr><td colspan="6" class="py-8 text-center text-slate-400">Select a route above</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Scan Log Tab ───────────────────────────────────────────────── -->
+      <div id="tab-scanlog" class="tab-panel p-6 hidden">
+        <div class="flex justify-end mb-4">
+          <button onclick="loadScanLog()" class="text-xs text-blue-600 hover:text-blue-800 focus:outline-none">Refresh</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs text-slate-400 border-b border-slate-100">
+                <th class="pb-2 pr-4 font-medium">Started</th>
+                <th class="pb-2 pr-4 font-medium text-center">Routes</th>
+                <th class="pb-2 pr-4 font-medium text-center">Dates</th>
+                <th class="pb-2 pr-4 font-medium text-center">Triggers</th>
+                <th class="pb-2 pr-4 font-medium text-center">Bookings</th>
+                <th class="pb-2 pr-4 font-medium text-center">Errors</th>
+                <th class="pb-2 font-medium text-center">Mode</th>
+              </tr>
+            </thead>
+            <tbody id="scan-log-body">
+              <tr><td colspan="7" class="py-12 text-center text-slate-400">Loading&hellip;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /container -->
+
+  <script>
+    // ── State ─────────────────────────────────────────────────────────────
+    const state = {
+      stats: null,
+      config: null,
+      bookings: [],
+      scanLog: [],
+      bookingsFilter: 'held',
+      activeTab: 'overview',
+      priceChart: null,
+      scanPoll: null,
+    };
+
+    // ── Helpers ───────────────────────────────────────────────────────────
+    const api = {
+      get: (url) => fetch(url).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); }),
+      post: (url) => fetch(url, { method: 'POST' }).then(r => r.json()),
+    };
+
+    const fmt = {
+      money: (v) => v != null ? '$' + Number(v).toLocaleString('en-US', { maximumFractionDigits: 0 }) : '—',
+      date: (s) => s ? new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—',
+      datetime: (s) => s ? new Date(s + 'Z').toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—',
+      cabin: (s) => (s || '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+    };
+
+    function daysUntil(dateStr) {
+      if (!dateStr) return null;
+      return Math.ceil((new Date(dateStr + 'T12:00:00Z') - Date.now()) / 86400000);
+    }
+
+    // ── Stats ─────────────────────────────────────────────────────────────
+    async function loadStats() {
+      try {
+        state.stats = await api.get('/api/stats');
+        renderStats();
+      } catch (e) { console.error('stats:', e); }
+    }
+
+    function renderStats() {
+      const s = state.stats;
+      if (!s) return;
+
+      // Header badge
+      const badge = document.getElementById('mode-badge');
+      if (s.dry_run_mode) {
+        badge.textContent = 'DRY RUN';
+        badge.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-amber-400 text-amber-900';
+      } else {
+        badge.textContent = 'LIVE';
+        badge.className = 'px-3 py-1 rounded-full text-xs font-semibold bg-red-500 text-white';
+      }
+
+      // Scan spinner
+      const ind = document.getElementById('scan-indicator');
+      ind.classList.toggle('hidden', !s.scan_running);
+      ind.classList.toggle('flex', s.scan_running);
+
+      // Cards
+      const cards = [
+        { label: 'Routes Monitored',  value: s.routes_monitored,              accent: 'blue'   },
+        { label: 'Held Bookings',      value: s.held_bookings,                 accent: 'emerald'},
+        { label: 'Price Data Points',  value: s.total_price_points.toLocaleString(), accent: 'violet' },
+        { label: 'Price Triggers',     value: s.total_triggers.toLocaleString(),     accent: 'orange' },
+      ];
+      const accents = {
+        blue:    'border-blue-500',
+        emerald: 'border-emerald-500',
+        violet:  'border-violet-500',
+        orange:  'border-orange-400',
+      };
+      document.getElementById('stats-cards').innerHTML = cards.map(c => `
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 border-l-4 ${accents[c.accent]} p-4">
+          <p class="text-2xl font-bold text-slate-800">${c.value}</p>
+          <p class="text-xs text-slate-500 mt-0.5">${c.label}</p>
+        </div>
+      `).join('');
+
+      // Bookings tab badge
+      const heldBadge = document.getElementById('held-badge');
+      if (s.held_bookings > 0) {
+        heldBadge.textContent = s.held_bookings;
+        heldBadge.classList.remove('hidden');
+      } else {
+        heldBadge.classList.add('hidden');
+      }
+
+      // Scan control info
+      const lastScan = s.last_scan;
+      document.getElementById('last-scan-time').textContent =
+        lastScan ? fmt.datetime(lastScan.started_at) : 'Never';
+      document.getElementById('scan-interval').textContent = s.scan_interval_minutes;
+
+      renderScanBtn();
+    }
+
+    // ── Config ────────────────────────────────────────────────────────────
+    async function loadConfig() {
+      try {
+        state.config = await api.get('/api/config');
+        renderRouteConfig();
+        populateRouteSelect();
+
+        const buf = document.getElementById('ecredit-buffer');
+        if (buf) buf.textContent = fmt.money(state.config.min_ecredit_buffer_usd) + ' reserve';
+      } catch (e) { console.error('config:', e); }
+    }
+
+    function renderRouteConfig() {
+      const cfg = state.config;
+      if (!cfg) return;
+      document.getElementById('route-config-body').innerHTML = cfg.routes.map(r => `
+        <tr class="border-b border-slate-50 hover:bg-slate-50">
+          <td class="py-2 pr-4 font-mono text-xs font-semibold text-slate-700">${r.origin} &rarr; ${r.destination}</td>
+          <td class="py-2 pr-4 text-slate-600 text-xs">${fmt.cabin(r.cabin)}</td>
+          <td class="py-2 pr-4 text-right font-medium text-xs">${fmt.money(r.max_price)}</td>
+          <td class="py-2 text-center">
+            ${r.auto_book
+              ? '<span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">Auto-book</span>'
+              : '<span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-xs rounded-full">Alert only</span>'}
+          </td>
+        </tr>
+      `).join('');
+
+      const dw = cfg.date_windows.map(w => `${w.start} to ${w.end}`).join(', ');
+      document.getElementById('date-window-info').textContent =
+        `Date windows: ${dw} — Fridays & Saturdays only`;
+    }
+
+    function populateRouteSelect() {
+      const cfg = state.config;
+      if (!cfg) return;
+      const sel = document.getElementById('route-select');
+      const existing = new Set(Array.from(sel.options).map(o => o.value));
+      cfg.routes.forEach(r => {
+        const val = `${r.origin}|${r.destination}`;
+        if (!existing.has(val)) {
+          const opt = document.createElement('option');
+          opt.value = val;
+          opt.textContent = `${r.origin} → ${r.destination}  (${fmt.cabin(r.cabin)}, max ${fmt.money(r.max_price)})`;
+          sel.appendChild(opt);
+        }
+      });
+      if (cfg.routes.length > 0 && sel.value === '') {
+        sel.value = `${cfg.routes[0].origin}|${cfg.routes[0].destination}`;
+      }
+    }
+
+    // ── Scan button ───────────────────────────────────────────────────────
+    function renderScanBtn() {
+      const s = state.stats;
+      if (!s) return;
+      const btn = document.getElementById('scan-btn');
+      const note = document.getElementById('scan-mode-note');
+      const running = s.scan_running || state.scanPoll;
+      btn.disabled = !!running;
+      btn.textContent = running ? 'Scanning…' : (s.dry_run_mode ? 'Run Dry-Run Scan' : 'Run Live Scan');
+      note.textContent = s.dry_run_mode
+        ? 'DRY RUN mode — no bookings will be made'
+        : 'LIVE mode — real bookings with eCredits';
+      note.className = s.dry_run_mode
+        ? 'text-xs text-slate-400 text-center -mt-2'
+        : 'text-xs text-red-600 font-medium text-center -mt-2';
+    }
+
+    async function triggerScan() {
+      try {
+        await api.post('/api/scan');
+        startScanPoll();
+      } catch (e) {
+        if (e.message === 'Conflict') {
+          alert('A scan is already running.');
+        } else {
+          alert('Failed to start scan: ' + e.message);
+        }
+      }
+    }
+
+    function startScanPoll() {
+      if (state.scanPoll) return;
+      renderScanBtn();
+      document.getElementById('scan-indicator').classList.remove('hidden');
+      document.getElementById('scan-indicator').classList.add('flex');
+
+      state.scanPoll = setInterval(async () => {
+        try {
+          const status = await api.get('/api/scan/status');
+          if (!status.running) {
+            clearInterval(state.scanPoll);
+            state.scanPoll = null;
+            await loadStats();
+            await loadScanLog();
+            if (state.activeTab === 'bookings') await loadBookings();
+            if (state.activeTab === 'prices') await loadPriceData();
+            showScanResult(status.last_result);
+            renderScanBtn();
+          }
+        } catch (e) {
+          clearInterval(state.scanPoll);
+          state.scanPoll = null;
+        }
+      }, 2500);
+    }
+
+    function showScanResult(result) {
+      const card = document.getElementById('scan-result-card');
+      if (!result) { card.classList.add('hidden'); return; }
+      card.classList.remove('hidden');
+
+      if (result.error) {
+        card.className = 'rounded-lg border border-red-200 bg-red-50 p-4 text-sm';
+        card.innerHTML = `<p class="font-medium text-red-700">Scan failed</p>
+          <p class="text-xs text-red-600 mt-1 font-mono">${result.error}</p>`;
+        return;
+      }
+
+      card.className = 'rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm';
+      const items = [
+        ['Routes', result.routes_checked],
+        ['Dates', result.dates_checked],
+        ['Triggers', result.trigger_count],
+        ['Bookings', result.booking_count],
+        ['Errors', result.error_count],
+      ];
+      card.innerHTML = `
+        <p class="text-xs font-semibold text-emerald-700 mb-3">Scan complete</p>
+        <div class="flex gap-5 flex-wrap">
+          ${items.map(([label, val]) => `
+            <div class="text-center">
+              <p class="text-xl font-bold text-slate-700">${val}</p>
+              <p class="text-xs text-slate-500">${label}</p>
+            </div>`).join('')}
+        </div>`;
+    }
+
+    // ── Bookings ──────────────────────────────────────────────────────────
+    async function loadBookings() {
+      try {
+        const f = state.bookingsFilter;
+        const url = f === 'all' ? '/api/bookings' : `/api/bookings?status=${f}`;
+        state.bookings = await api.get(url);
+        renderBookings();
+      } catch (e) { console.error('bookings:', e); }
+    }
+
+    function renderBookings() {
+      const tbody = document.getElementById('bookings-body');
+      const rows = state.bookings;
+      if (!rows.length) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-12 text-center text-slate-400">No bookings found</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = rows.map(b => {
+        const days = daysUntil(b.cancel_by);
+        const urgent = days !== null && days <= 7 && b.status === 'held';
+        const cancelCell = b.cancel_by
+          ? `<span class="${urgent ? 'text-red-600 font-semibold' : ''}">${fmt.date(b.cancel_by)}${urgent ? ` &mdash; ${days}d` : ''}</span>`
+          : '<span class="text-slate-400">—</span>';
+
+        const statusMap = {
+          held:      '<span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs rounded-full font-medium">Held</span>',
+          cancelled: '<span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-xs rounded-full">Cancelled</span>',
+          flown:     '<span class="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">Flown</span>',
+        };
+        const action = b.status === 'held'
+          ? `<button onclick="cancelBooking('${b.pnr}')" class="text-xs text-red-600 hover:text-red-800 font-medium focus:outline-none">Cancel</button>`
+          : '';
+
+        return `<tr class="border-b border-slate-50 hover:bg-slate-50 ${urgent ? 'bg-red-50 hover:bg-red-50' : ''}">
+          <td class="py-2.5 pr-4 font-mono text-xs font-semibold text-slate-700">${b.pnr}</td>
+          <td class="py-2.5 pr-4 text-sm">${b.origin} &rarr; ${b.destination}</td>
+          <td class="py-2.5 pr-4 text-sm text-slate-600">${fmt.cabin(b.cabin)}</td>
+          <td class="py-2.5 pr-4 text-sm">${fmt.date(b.travel_date)}</td>
+          <td class="py-2.5 pr-4 text-sm text-right font-medium">${fmt.money(b.price_usd)}</td>
+          <td class="py-2.5 pr-4 text-sm">${cancelCell}</td>
+          <td class="py-2.5 pr-4">${statusMap[b.status] || b.status}</td>
+          <td class="py-2.5">${action}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function cancelBooking(pnr) {
+      const ok = confirm(
+        `Cancel booking ${pnr} in the local database?\n\n` +
+        `IMPORTANT: You must also cancel on delta.com or by phone — this only updates the local DB.`
+      );
+      if (!ok) return;
+      try {
+        await api.post(`/api/bookings/${pnr}/cancel`);
+        await loadBookings();
+        await loadStats();
+      } catch (e) {
+        alert('Cancel failed: ' + e.message);
+      }
+    }
+
+    function setBookingFilter(filter) {
+      state.bookingsFilter = filter;
+      document.querySelectorAll('.booking-filter').forEach(btn => {
+        const active = btn.dataset.filter === filter;
+        btn.classList.toggle('bg-white', active);
+        btn.classList.toggle('shadow-sm', active);
+        btn.classList.toggle('text-slate-800', active);
+        btn.classList.toggle('font-medium', active);
+        btn.classList.toggle('text-slate-500', !active);
+      });
+      loadBookings();
+    }
+
+    // ── Price History ─────────────────────────────────────────────────────
+    async function loadPriceData() {
+      const sel = document.getElementById('route-select');
+      let origin = '', destination = '';
+      if (sel.value) [origin, destination] = sel.value.split('|');
+
+      try {
+        const [summary, history] = await Promise.all([
+          api.get(`/api/price-summary?origin=${origin}&destination=${destination}`),
+          api.get(`/api/price-history?origin=${origin}&destination=${destination}&limit=100`),
+        ]);
+        const route = state.config?.routes.find(r => r.origin === origin && r.destination === destination);
+        renderPriceChart(summary, route?.max_price);
+        renderPriceTable(history);
+      } catch (e) { console.error('price data:', e); }
+    }
+
+    function renderPriceChart(data, threshold) {
+      const canvas = document.getElementById('price-chart');
+      const empty  = document.getElementById('price-empty');
+
+      if (!data.length) {
+        if (state.priceChart) { state.priceChart.destroy(); state.priceChart = null; }
+        canvas.style.display = 'none';
+        empty.classList.remove('hidden');
+        return;
+      }
+      canvas.style.display = '';
+      empty.classList.add('hidden');
+
+      const labels = data.map(d => d.travel_date);
+      const mins   = data.map(d => d.min_price);
+      const datasets = [{
+        label: 'Min Price',
+        data: mins,
+        backgroundColor: 'rgba(37,99,235,0.7)',
+        borderColor: 'rgba(37,99,235,1)',
+        borderWidth: 1,
+        borderRadius: 3,
+      }];
+
+      if (threshold) {
+        datasets.push({
+          label: `Threshold (${fmt.money(threshold)})`,
+          data: data.map(() => threshold),
+          type: 'line',
+          borderColor: 'rgba(239,68,68,0.85)',
+          borderDash: [6, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+        });
+      }
+
+      if (state.priceChart) {
+        state.priceChart.data.labels = labels;
+        state.priceChart.data.datasets = datasets;
+        state.priceChart.update();
+      } else {
+        state.priceChart = new Chart(canvas.getContext('2d'), {
+          type: 'bar',
+          data: { labels, datasets },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 14 } },
+              tooltip: {
+                callbacks: {
+                  label: ctx => ` ${fmt.money(ctx.raw)}`,
+                },
+              },
+            },
+            scales: {
+              x: {
+                ticks: { font: { size: 10 }, maxRotation: 45, maxTicksLimit: 24 },
+                grid: { display: false },
+              },
+              y: {
+                ticks: {
+                  font: { size: 10 },
+                  callback: v => fmt.money(v),
+                },
+                grid: { color: 'rgba(0,0,0,0.05)' },
+              },
+            },
+          },
+        });
+      }
+    }
+
+    function renderPriceTable(rows) {
+      const tbody = document.getElementById('price-history-body');
+      if (!rows.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">No observations yet — run a scan first</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = rows.map(r => `
+        <tr class="border-b border-slate-50 hover:bg-slate-50">
+          <td class="py-2 pr-4 text-sm">${fmt.date(r.travel_date)}</td>
+          <td class="py-2 pr-4 font-mono text-xs text-slate-600">${r.origin} &rarr; ${r.destination}</td>
+          <td class="py-2 pr-4 text-sm text-slate-600">${fmt.cabin(r.cabin)}</td>
+          <td class="py-2 pr-4 text-sm font-medium text-right">${fmt.money(r.price_usd)}</td>
+          <td class="py-2 pr-4 text-xs text-slate-500">${r.source}</td>
+          <td class="py-2 text-xs text-slate-500">${fmt.datetime(r.scanned_at)}</td>
+        </tr>`).join('');
+    }
+
+    // ── Scan Log ──────────────────────────────────────────────────────────
+    async function loadScanLog() {
+      try {
+        state.scanLog = await api.get('/api/scan-log');
+        renderScanLog();
+      } catch (e) { console.error('scan log:', e); }
+    }
+
+    function renderScanLog() {
+      const tbody = document.getElementById('scan-log-body');
+      if (!state.scanLog.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-12 text-center text-slate-400">No scans recorded yet</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = state.scanLog.map(r => {
+        const modeBadge = r.dry_run
+          ? '<span class="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs rounded-full">Dry Run</span>'
+          : '<span class="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full font-medium">Live</span>';
+        return `<tr class="border-b border-slate-50 hover:bg-slate-50">
+          <td class="py-2.5 pr-4 text-sm">${fmt.datetime(r.started_at)}</td>
+          <td class="py-2.5 pr-4 text-sm text-center">${r.routes_checked}</td>
+          <td class="py-2.5 pr-4 text-sm text-center">${r.dates_checked}</td>
+          <td class="py-2.5 pr-4 text-sm text-center ${r.trigger_count > 0 ? 'text-blue-600 font-semibold' : ''}">${r.trigger_count}</td>
+          <td class="py-2.5 pr-4 text-sm text-center ${r.booking_count > 0 ? 'text-emerald-600 font-semibold' : ''}">${r.booking_count}</td>
+          <td class="py-2.5 pr-4 text-sm text-center ${r.error_count > 0 ? 'text-red-600 font-semibold' : ''}">${r.error_count}</td>
+          <td class="py-2.5 text-center">${modeBadge}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    // ── Tabs ──────────────────────────────────────────────────────────────
+    function switchTab(tab) {
+      state.activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        const active = btn.dataset.tab === tab;
+        btn.classList.toggle('border-blue-600', active);
+        btn.classList.toggle('text-blue-600', active);
+        btn.classList.toggle('border-transparent', !active);
+        btn.classList.toggle('text-slate-500', !active);
+      });
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById('tab-' + tab).classList.remove('hidden');
+
+      if (tab === 'bookings') loadBookings();
+      if (tab === 'prices')   loadPriceData();
+      if (tab === 'scanlog')  loadScanLog();
+    }
+
+    // ── Boot ──────────────────────────────────────────────────────────────
+    async function init() {
+      document.querySelectorAll('.tab-btn').forEach(btn =>
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+
+      document.querySelectorAll('.booking-filter').forEach(btn =>
+        btn.addEventListener('click', () => setBookingFilter(btn.dataset.filter)));
+
+      document.getElementById('scan-btn').addEventListener('click', triggerScan);
+      document.getElementById('route-select').addEventListener('change', loadPriceData);
+
+      await Promise.all([loadConfig(), loadStats()]);
+      switchTab('overview');
+      setBookingFilter('held');
+
+      // Refresh stats every 30 seconds
+      setInterval(loadStats, 30000);
+
+      // If a scan was already running when we loaded, start polling
+      if (state.stats?.scan_running) startScanPoll();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
