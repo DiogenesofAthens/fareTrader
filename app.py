@@ -1,7 +1,7 @@
 """
 fareTrader web UI — FastAPI backend.
 
-Start with:  uvicorn api:app --reload --port 8000
+Start with:  uvicorn app:app --reload --port 8000
 Then open:   http://localhost:8000
 """
 from __future__ import annotations
