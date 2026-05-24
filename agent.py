@@ -38,6 +38,29 @@ log = logging.getLogger("agent")
 # Core scan logic
 # ---------------------------------------------------------------------------
 
+def _check_scanner_watchdog() -> None:
+    """
+    Dead-man's-switch: alert if no prices have been recorded in longer than
+    config.SCANNER_WATCHDOG_HOURS. Disabled when watchdog is set to 0.
+    Only fires when price history exists (skips first-ever run).
+    """
+    threshold = config.SCANNER_WATCHDOG_HOURS
+    if threshold <= 0:
+        return
+    hours = db.get_hours_since_last_price()
+    if hours is None:
+        log.debug("Watchdog: no price history yet — skipping")
+        return
+    if hours > threshold:
+        log.warning(
+            "WATCHDOG: no prices recorded in %.1fh (threshold %.1fh) — scanner may be broken",
+            hours, threshold,
+        )
+        notify.scanner_dead(hours_silent=hours, watchdog_threshold=threshold)
+    else:
+        log.debug("Watchdog: last price %.1fh ago (threshold %.1fh) — OK", hours, threshold)
+
+
 def run_scan() -> dict:
     """
     One full scan pass across all configured routes × dates.
@@ -56,6 +79,7 @@ def run_scan() -> dict:
         len(dates),
     )
 
+    _check_scanner_watchdog()
     scan_id = db.start_scan_log(dry_run)
 
     routes_checked  = 0

@@ -146,3 +146,22 @@ def error_alert(context: str, error: str) -> None:
         priority=_HIGH,
         sound="falling",
     )
+
+
+def scanner_dead(hours_silent: float, watchdog_threshold: float) -> None:
+    """
+    Dead-man's-switch alert. Fires when no prices have been recorded for
+    longer than the configured watchdog threshold — indicating the scanner
+    is silently returning nothing (DOM change, rate-limit, network issue).
+    """
+    _send(
+        title="fareTrader: scanner may be broken",
+        message=(
+            f"No prices recorded in {hours_silent:.1f}h "
+            f"(threshold: {watchdog_threshold:.1f}h).\n"
+            f"Check error_*.png screenshots and scanner.py selectors.\n"
+            f"Run: DRY_RUN=true python3 agent.py --once"
+        ),
+        priority=_URGENT,
+        sound="siren",
+    )

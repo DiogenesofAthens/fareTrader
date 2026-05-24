@@ -188,6 +188,22 @@ def start_scan_log(dry_run: bool) -> int:
         return cur.lastrowid  # type: ignore[return-value]
 
 
+def get_hours_since_last_price() -> float | None:
+    """
+    Return how many hours have elapsed since the most recent price_history row
+    was recorded, or None if no price records exist yet.
+    """
+    with _conn() as con:
+        row = con.execute(
+            "SELECT MAX(scanned_at) AS last_at FROM price_history"
+        ).fetchone()
+    if not row or not row["last_at"]:
+        return None
+    last_at = datetime.fromisoformat(row["last_at"])
+    elapsed = (datetime.utcnow() - last_at).total_seconds() / 3600
+    return elapsed
+
+
 def finish_scan_log(
     scan_id: int,
     routes_checked: int,

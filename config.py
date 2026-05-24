@@ -49,6 +49,12 @@ SCAN_INTERVAL_MINUTES: int = int(os.getenv("SCAN_INTERVAL_MINUTES", "120"))
 # Never book more than this many new dates per route per scan run
 MAX_NEW_BOOKINGS_PER_ROUTE_PER_SCAN: int = 1
 
+# Dead-man's-switch: alert if no prices have been recorded in this many hours.
+# Set to 0 to disable. Default is 3× the scan interval (generous buffer).
+SCANNER_WATCHDOG_HOURS: float = float(
+    os.getenv("SCANNER_WATCHDOG_HOURS", str(round(SCAN_INTERVAL_MINUTES * 3 / 60, 1)))
+)
+
 # Keep this many eCredits in reserve (USD) — don't book if balance would drop below
 MIN_ECREDIT_BUFFER_USD: float = float(os.getenv("MIN_ECREDIT_BUFFER_USD", "500.0"))
 
