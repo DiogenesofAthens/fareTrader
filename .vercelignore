@@ -1,0 +1,14 @@
+# Exclude Python backend — Vercel serves static/index.html only.
+# The frontend has a full demo-data fallback when the live API is unreachable.
+app.py
+db.py
+config.py
+scanner.py
+booker.py
+notify.py
+agent.py
+requirements.txt
+*.db
+*.db-shm
+*.db-wal
+__pycache__/
