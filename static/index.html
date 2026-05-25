@@ -196,6 +196,95 @@
   </div><!-- /container -->
 
   <script>
+    // ── Demo fallback data ─────────────────────────────────────────────────
+    // Shown when the backend isn't reachable (e.g., Vercel static preview).
+    const DEMO = {
+      active: false,
+      stats: {
+        routes_monitored: 2,
+        held_bookings: 4,
+        total_price_points: 847,
+        total_triggers: 12,
+        total_scans: 41,
+        last_scan: { started_at: '2026-05-24T09:15:00', routes_checked: 2, dates_checked: 22, trigger_count: 1, booking_count: 0, error_count: 0, dry_run: true },
+        dry_run_mode: true,
+        scan_interval_minutes: 120,
+        scan_running: false,
+      },
+      config: {
+        routes: [
+          { origin: 'ATL', destination: 'CDG', cabin: 'delta_one', max_price: 5000, auto_book: true, seats: 1 },
+          { origin: 'ATL', destination: 'LHR', cabin: 'delta_one', max_price: 4000, auto_book: false, seats: 1 },
+        ],
+        date_windows: [{ start: '2026-06-01', end: '2026-10-31' }],
+        dry_run: true,
+        scan_interval_minutes: 120,
+        min_ecredit_buffer_usd: 500,
+      },
+      bookings: [
+        { pnr: 'GXM4F9', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', travel_date: '2026-07-11', price_usd: 4850, cancel_by: '2026-07-10', status: 'held', booked_at: '2026-05-15T14:22:00' },
+        { pnr: 'KT7RQ2', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', travel_date: '2026-08-01', price_usd: 4780, cancel_by: '2026-07-31', status: 'held', booked_at: '2026-05-18T08:44:00' },
+        { pnr: 'VN8BW5', origin: 'ATL', destination: 'LHR', cabin: 'delta_one', travel_date: '2026-07-18', price_usd: 3920, cancel_by: '2026-07-17', status: 'held', booked_at: '2026-05-20T17:33:00' },
+        { pnr: 'DX2KP1', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', travel_date: '2026-09-05', price_usd: 4640, cancel_by: '2026-09-04', status: 'held', booked_at: '2026-05-21T11:02:00' },
+      ],
+      priceHistory: [
+        { travel_date: '2026-07-11', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', price_usd: 4850, source: 'google_flights', scanned_at: '2026-05-24T09:15:00' },
+        { travel_date: '2026-07-11', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', price_usd: 5120, source: 'google_flights', scanned_at: '2026-05-22T09:14:00' },
+        { travel_date: '2026-07-11', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', price_usd: 5340, source: 'google_flights', scanned_at: '2026-05-20T09:11:00' },
+        { travel_date: '2026-08-01', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', price_usd: 4780, source: 'google_flights', scanned_at: '2026-05-24T09:15:00' },
+        { travel_date: '2026-08-01', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', price_usd: 4920, source: 'google_flights', scanned_at: '2026-05-22T09:14:00' },
+        { travel_date: '2026-08-08', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', price_usd: 5680, source: 'google_flights', scanned_at: '2026-05-24T09:15:00' },
+        { travel_date: '2026-08-15', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', price_usd: 5420, source: 'kayak', scanned_at: '2026-05-24T09:15:00' },
+        { travel_date: '2026-09-05', origin: 'ATL', destination: 'CDG', cabin: 'delta_one', price_usd: 4640, source: 'google_flights', scanned_at: '2026-05-24T09:15:00' },
+        { travel_date: '2026-07-18', origin: 'ATL', destination: 'LHR', cabin: 'delta_one', price_usd: 3920, source: 'google_flights', scanned_at: '2026-05-24T09:15:00' },
+        { travel_date: '2026-07-25', origin: 'ATL', destination: 'LHR', cabin: 'delta_one', price_usd: 4210, source: 'google_flights', scanned_at: '2026-05-24T09:15:00' },
+        { travel_date: '2026-08-08', origin: 'ATL', destination: 'LHR', cabin: 'delta_one', price_usd: 3870, source: 'google_flights', scanned_at: '2026-05-24T09:15:00' },
+      ],
+      priceSummary: {
+        'ATL|CDG': [
+          { travel_date: '2026-07-11', min_price: 4850, max_price: 5340, avg_price: 5103, observations: 3 },
+          { travel_date: '2026-08-01', min_price: 4780, max_price: 4920, avg_price: 4850, observations: 2 },
+          { travel_date: '2026-08-08', min_price: 5680, max_price: 5680, avg_price: 5680, observations: 1 },
+          { travel_date: '2026-08-15', min_price: 5420, max_price: 5420, avg_price: 5420, observations: 1 },
+          { travel_date: '2026-09-05', min_price: 4640, max_price: 4640, avg_price: 4640, observations: 1 },
+        ],
+        'ATL|LHR': [
+          { travel_date: '2026-07-18', min_price: 3920, max_price: 3920, avg_price: 3920, observations: 1 },
+          { travel_date: '2026-07-25', min_price: 4210, max_price: 4210, avg_price: 4210, observations: 1 },
+          { travel_date: '2026-08-08', min_price: 3870, max_price: 3870, avg_price: 3870, observations: 1 },
+        ],
+        '': [
+          { travel_date: '2026-07-11', min_price: 4850, max_price: 5340, avg_price: 5103, observations: 3 },
+          { travel_date: '2026-07-18', min_price: 3920, max_price: 3920, avg_price: 3920, observations: 1 },
+          { travel_date: '2026-07-25', min_price: 4210, max_price: 4210, avg_price: 4210, observations: 1 },
+          { travel_date: '2026-08-01', min_price: 4780, max_price: 4920, avg_price: 4850, observations: 2 },
+          { travel_date: '2026-08-08', min_price: 3870, max_price: 5680, avg_price: 4775, observations: 2 },
+          { travel_date: '2026-08-15', min_price: 5420, max_price: 5420, avg_price: 5420, observations: 1 },
+          { travel_date: '2026-09-05', min_price: 4640, max_price: 4640, avg_price: 4640, observations: 1 },
+        ],
+      },
+      scanLog: [
+        { started_at: '2026-05-24T09:15:00', routes_checked: 2, dates_checked: 22, trigger_count: 1, booking_count: 0, error_count: 0, dry_run: true },
+        { started_at: '2026-05-24T07:14:00', routes_checked: 2, dates_checked: 22, trigger_count: 0, booking_count: 0, error_count: 0, dry_run: true },
+        { started_at: '2026-05-23T21:14:00', routes_checked: 2, dates_checked: 22, trigger_count: 0, booking_count: 0, error_count: 0, dry_run: true },
+        { started_at: '2026-05-23T19:13:00', routes_checked: 2, dates_checked: 22, trigger_count: 2, booking_count: 1, error_count: 0, dry_run: false },
+        { started_at: '2026-05-23T17:13:00', routes_checked: 2, dates_checked: 22, trigger_count: 0, booking_count: 0, error_count: 0, dry_run: false },
+        { started_at: '2026-05-23T15:12:00', routes_checked: 2, dates_checked: 20, trigger_count: 1, booking_count: 1, error_count: 0, dry_run: false },
+        { started_at: '2026-05-22T09:11:00', routes_checked: 2, dates_checked: 20, trigger_count: 0, booking_count: 0, error_count: 0, dry_run: false },
+        { started_at: '2026-05-21T07:10:00', routes_checked: 2, dates_checked: 18, trigger_count: 3, booking_count: 2, error_count: 0, dry_run: false },
+      ],
+    };
+
+    function showDemoBanner() {
+      const header = document.querySelector('header > div');
+      if (!header || document.getElementById('demo-banner')) return;
+      const banner = document.createElement('div');
+      banner.id = 'demo-banner';
+      banner.className = 'w-full bg-amber-50 border-b border-amber-200 px-4 py-2 text-xs text-amber-800 text-center';
+      banner.innerHTML = '⚡ <strong>Demo mode</strong> — Showing example data. Run the agent locally to connect a live account.';
+      document.querySelector('header').insertAdjacentElement('afterend', banner);
+    }
+
     // ── State ─────────────────────────────────────────────────────────────
     const state = {
       stats: null,
@@ -210,9 +299,46 @@
 
     // ── Helpers ───────────────────────────────────────────────────────────
     const api = {
-      get: (url) => fetch(url).then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); }),
+      get: async (url) => {
+        try {
+          const r = await fetch(url);
+          if (!r.ok) throw new Error(r.statusText);
+          return await r.json();
+        } catch (err) {
+          // Backend unreachable — activate demo mode
+          if (!DEMO.active) {
+            DEMO.active = true;
+            showDemoBanner();
+          }
+          return _demoGet(url);
+        }
+      },
       post: (url) => fetch(url, { method: 'POST' }).then(r => r.json()),
     };
+
+    function _demoGet(url) {
+      if (url.startsWith('/api/stats'))         return Promise.resolve(DEMO.stats);
+      if (url.startsWith('/api/config'))        return Promise.resolve(DEMO.config);
+      if (url === '/api/bookings' || url.includes('/api/bookings?status=held'))
+        return Promise.resolve(DEMO.bookings.filter(b => url.includes('held') ? b.status === 'held' : true));
+      if (url.includes('/api/bookings?status=all'))  return Promise.resolve(DEMO.bookings);
+      if (url.includes('/api/bookings?status=cancelled')) return Promise.resolve([]);
+      if (url.startsWith('/api/price-summary')) {
+        const m = url.match(/origin=([A-Z]+).*destination=([A-Z]+)/);
+        const key = m ? `${m[1]}|${m[2]}` : '';
+        return Promise.resolve(DEMO.priceSummary[key] || DEMO.priceSummary['']);
+      }
+      if (url.startsWith('/api/price-history')) {
+        const m = url.match(/origin=([A-Z]+).*destination=([A-Z]+)/);
+        if (m) {
+          const rows = DEMO.priceHistory.filter(r => r.origin === m[1] && r.destination === m[2]);
+          return Promise.resolve(rows);
+        }
+        return Promise.resolve(DEMO.priceHistory);
+      }
+      if (url.startsWith('/api/scan-log'))      return Promise.resolve(DEMO.scanLog);
+      return Promise.resolve({});
+    }
 
     const fmt = {
       money: (v) => v != null ? '$' + Number(v).toLocaleString('en-US', { maximumFractionDigits: 0 }) : '—',
