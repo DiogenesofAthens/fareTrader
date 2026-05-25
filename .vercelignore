@@ -1,13 +1,6 @@
-# Exclude Python backend — Vercel serves static/index.html only.
-# The frontend has a full demo-data fallback when the live API is unreachable.
-app.py
-db.py
-config.py
-scanner.py
-booker.py
-notify.py
-agent.py
-requirements.txt
+# Exclude local-only files from the Vercel bundle.
+# app.py is kept — Vercel uses it as the FastAPI entrypoint,
+# but it guards SQLite imports behind the VERCEL env var.
 *.db
 *.db-shm
 *.db-wal
