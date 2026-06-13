@@ -1,0 +1,38 @@
+# fareTrader
+
+> Autonomous Delta Air Lines fare monitor and auto-booker using eCredits as zero-cost options on premium seats.
+
+## What fareTrader Does
+
+fareTrader is a Python agent that monitors Delta Air Lines first-class and Delta One fares across configured routes and date windows. When a fare hits or drops below a configured price threshold, the agent automatically books it using the user's Delta eCredits.
+
+**The free-options strategy:** Delta allows free cancellation before departure. Every booked seat is a zero-cost option on a premium seat — the agent holds inventory and the user cancels anything they decide not to fly. Net cost is $0 unless you actually travel.
+
+**Why eCredits:** eCredits are already "spent" money (from previous trip cancellations). Using them creates no new financial exposure — the money was already gone.
+
+## How It Works
+
+1. Configured routes (e.g., ATL → CDG, ATL → LHR) and date windows are defined in `config.py`
+2. The agent scans Google Flights (with Kayak as fallback) for fares on Fridays and Saturdays only
+3. When a fare drops below the configured threshold, it fires a Pushover notification
+4. If `auto_book=True` and the slot isn't already held, it uses Playwright to book on delta.com
+5. Bookings are recorded in a local SQLite database with PNR, price, travel date, and cancellation deadline
+
+## Architecture
+
+- `agent.py` — Orchestrator and scheduler
+- `scanner.py` — Price scraper (Google Flights / Kayak via Playwright)
+- `booker.py` — Playwright automation against delta.com
+- `db.py` — SQLite storage (bookings, price history, scan log)
+- `notify.py` — Pushover alerts
+- `config.py` — Routes, date windows, thresholds
+
+## Dashboard
+
+Live dashboard at https://fare-trader.vercel.app showing:
+- Monitored routes and price thresholds
+- Held bookings with cancellation deadlines
+- Price history charts per route
+- Scan log
+
+Built by Kirk Wessman (https://kirkwessman.com). GitHub: https://github.com/DiogenesofAthens/fareTrader

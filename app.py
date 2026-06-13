@@ -31,6 +31,21 @@ def index():
     return FileResponse(STATIC_DIR / "index.html")
 
 
+@app.get("/robots.txt")
+def robots():
+    return FileResponse(STATIC_DIR / "robots.txt", media_type="text/plain")
+
+
+@app.get("/sitemap.xml")
+def sitemap():
+    return FileResponse(STATIC_DIR / "sitemap.xml", media_type="application/xml")
+
+
+@app.get("/llms.txt")
+def llms():
+    return FileResponse(STATIC_DIR / "llms.txt", media_type="text/plain")
+
+
 # ---------------------------------------------------------------------------
 # Live API — only registered when not on Vercel (requires local SQLite)
 # ---------------------------------------------------------------------------
