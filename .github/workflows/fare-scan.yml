@@ -1,0 +1,55 @@
+name: Fare scan (dry run)
+
+on:
+  schedule:
+    # Every 6 hours
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fare-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      # CI keeps its own committed database at data/scans.db so price history
+      # accumulates across runs. The local bookings.db stays gitignored —
+      # only dry-run scans ever execute here, so no real PNRs are written.
+      - name: Run dry-run scan and export snapshot
+        env:
+          DRY_RUN: "true"
+          DB_PATH: data/scans.db
+        run: python export_snapshot.py --scan
+
+      - name: Commit refreshed snapshot
+        run: |
+          git config user.name "fare-scan-bot"
+          git config user.email "actions@github.com"
+          git add static/data.json data/scans.db
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            # No [skip ci]: the push must trigger a Vercel deploy so the
+            # refreshed snapshot goes live. GitHub's default token already
+            # prevents recursive workflow runs.
+            git commit -m "Scan: refresh fare snapshot"
+            git push
+          fi

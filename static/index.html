@@ -33,6 +33,8 @@
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800">
 
@@ -59,7 +61,8 @@
   <div class="max-w-7xl mx-auto px-4 py-6 space-y-5">
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="stats-cards">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="stats-cards">
+      <div class="bg-white rounded-xl border border-slate-200 p-4 animate-pulse h-20"></div>
       <div class="bg-white rounded-xl border border-slate-200 p-4 animate-pulse h-20"></div>
       <div class="bg-white rounded-xl border border-slate-200 p-4 animate-pulse h-20"></div>
       <div class="bg-white rounded-xl border border-slate-200 p-4 animate-pulse h-20"></div>
@@ -125,6 +128,9 @@
 
       <!-- ── Bookings Tab ────────────────────────────────────────────────── -->
       <div id="tab-bookings" class="tab-panel p-6 hidden">
+        <!-- Options portfolio summary — every held seat is a zero-cost option -->
+        <div id="portfolio-summary" class="hidden grid grid-cols-2 md:grid-cols-4 gap-4 mb-5"></div>
+
         <div class="flex items-center justify-between mb-4">
           <div class="flex gap-1 bg-slate-100 rounded-lg p-1">
             <button class="booking-filter px-3 py-1.5 text-xs font-medium rounded-md" data-filter="held">Held</button>
@@ -141,14 +147,16 @@
                 <th class="pb-2 pr-4 font-medium">Route</th>
                 <th class="pb-2 pr-4 font-medium">Cabin</th>
                 <th class="pb-2 pr-4 font-medium">Travel Date</th>
-                <th class="pb-2 pr-4 font-medium text-right">Price</th>
+                <th class="pb-2 pr-4 font-medium text-right">Booked At</th>
+                <th class="pb-2 pr-4 font-medium text-right">Today's Fare</th>
+                <th class="pb-2 pr-4 font-medium text-right">Option Value</th>
                 <th class="pb-2 pr-4 font-medium">Cancel By</th>
                 <th class="pb-2 pr-4 font-medium">Status</th>
                 <th class="pb-2 font-medium"></th>
               </tr>
             </thead>
             <tbody id="bookings-body">
-              <tr><td colspan="8" class="py-12 text-center text-slate-400">Loading&hellip;</td></tr>
+              <tr><td colspan="10" class="py-12 text-center text-slate-400">Loading&hellip;</td></tr>
             </tbody>
           </table>
         </div>
@@ -171,6 +179,14 @@
           <canvas id="price-chart"></canvas>
           <div id="price-empty" class="hidden absolute inset-0 flex items-center justify-center text-slate-400 text-sm">
             No upcoming price data for this route. Run a scan to populate.
+          </div>
+        </div>
+
+        <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-2">Cheapest Observed Fare Over Time</h3>
+        <div class="relative mb-6" style="min-height:180px">
+          <canvas id="trend-chart"></canvas>
+          <div id="trend-empty" class="hidden absolute inset-0 flex items-center justify-center text-slate-400 text-sm">
+            Not enough scan history yet — the trend appears after a few scans.
           </div>
         </div>
 
@@ -220,6 +236,28 @@
       </div>
 
     </div>
+
+    <!-- Early Access CTA -->
+    <div class="bg-slate-900 rounded-xl shadow-sm p-6 md:p-8">
+      <div class="md:flex md:items-center md:justify-between md:gap-8">
+        <div class="mb-4 md:mb-0">
+          <h2 class="text-white text-lg font-bold">Want an agent like this watching your fares?</h2>
+          <p class="text-slate-400 text-sm mt-1">
+            Get early access — bring your own routes, thresholds, and eCredits. The agent does the rest.
+          </p>
+        </div>
+        <form id="lead-form" class="flex gap-2 md:min-w-[380px]">
+          <input id="lead-email" type="email" required placeholder="you@example.com"
+            class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500" />
+          <button type="submit" id="lead-btn"
+            class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors whitespace-nowrap">
+            Get Early Access
+          </button>
+        </form>
+      </div>
+      <p id="lead-msg" class="hidden mt-3 text-sm"></p>
+    </div>
+
   </div><!-- /container -->
 
   <script>
@@ -237,6 +275,7 @@
         dry_run_mode: true,
         scan_interval_minutes: 120,
         scan_running: false,
+        savings_captured_usd: 630,
       },
       config: {
         routes: [
@@ -321,8 +360,65 @@
       bookingsFilter: 'held',
       activeTab: 'overview',
       priceChart: null,
+      trendChart: null,
+      latestPrices: {},
       scanPoll: null,
     };
+
+    // ── Snapshot fallback ─────────────────────────────────────────────────
+    // When the live API is unreachable (Vercel), prefer the real scan
+    // snapshot committed by the GitHub Actions agent over canned demo data.
+    let SNAPSHOT = null;
+    let snapshotTried = false;
+
+    async function loadSnapshot() {
+      if (snapshotTried) return SNAPSHOT;
+      snapshotTried = true;
+      try {
+        const r = await fetch('/data.json');
+        if (r.ok) {
+          const snap = await r.json();
+          if (snap && snap.stats) SNAPSHOT = snap;
+        }
+      } catch { /* fall through to demo mode */ }
+      if (SNAPSHOT) showSnapshotBanner(SNAPSHOT);
+      return SNAPSHOT;
+    }
+
+    function showSnapshotBanner(snap) {
+      if (document.getElementById('snapshot-banner')) return;
+      const when = snap.generated_at
+        ? new Date(snap.generated_at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+        : 'recently';
+      const banner = document.createElement('div');
+      banner.id = 'snapshot-banner';
+      banner.className = 'w-full bg-blue-50 border-b border-blue-200 px-4 py-2 text-xs text-blue-800 text-center';
+      banner.innerHTML = `📡 <strong>Live snapshot</strong> — real scan data from the autonomous agent, updated ${when}.`;
+      document.querySelector('header').insertAdjacentElement('afterend', banner);
+    }
+
+    function _snapshotGet(url, snap) {
+      if (url.startsWith('/api/stats'))  return Promise.resolve(snap.stats);
+      if (url.startsWith('/api/config')) return Promise.resolve(snap.config);
+      if (url.startsWith('/api/bookings')) {
+        const m = url.match(/status=(\w+)/);
+        const rows = m ? snap.bookings.filter(b => b.status === m[1]) : snap.bookings;
+        return Promise.resolve(rows);
+      }
+      if (url.startsWith('/api/price-summary')) {
+        const m = url.match(/origin=([A-Z]+).*destination=([A-Z]+)/);
+        const key = m ? `${m[1]}|${m[2]}` : '';
+        return Promise.resolve((snap.price_summary && (snap.price_summary[key] || snap.price_summary[''])) || []);
+      }
+      if (url.startsWith('/api/price-history')) {
+        const m = url.match(/origin=([A-Z]+).*destination=([A-Z]+)/);
+        let rows = snap.price_history || [];
+        if (m) rows = rows.filter(r => r.origin === m[1] && r.destination === m[2]);
+        return Promise.resolve(rows);
+      }
+      if (url.startsWith('/api/scan-log')) return Promise.resolve(snap.scan_log || []);
+      return Promise.resolve({});
+    }
 
     // ── Helpers ───────────────────────────────────────────────────────────
     const api = {
@@ -332,7 +428,10 @@
           if (!r.ok) throw new Error(r.statusText);
           return await r.json();
         } catch (err) {
-          // Backend unreachable — activate demo mode
+          // Backend unreachable — try the committed scan snapshot first
+          const snap = await loadSnapshot();
+          if (snap) return _snapshotGet(url, snap);
+          // No snapshot either — activate demo mode
           if (!DEMO.active) {
             DEMO.active = true;
             showDemoBanner();
@@ -410,12 +509,14 @@
       const cards = [
         { label: 'Routes Monitored',  value: s.routes_monitored,              accent: 'blue'   },
         { label: 'Held Bookings',      value: s.held_bookings,                 accent: 'emerald'},
+        { label: 'Savings Captured',   value: fmt.money(s.savings_captured_usd || 0), accent: 'green' },
         { label: 'Price Data Points',  value: s.total_price_points.toLocaleString(), accent: 'violet' },
         { label: 'Price Triggers',     value: s.total_triggers.toLocaleString(),     accent: 'orange' },
       ];
       const accents = {
         blue:    'border-blue-500',
         emerald: 'border-emerald-500',
+        green:   'border-green-500',
         violet:  'border-violet-500',
         orange:  'border-orange-400',
       };
@@ -588,16 +689,76 @@
       try {
         const f = state.bookingsFilter;
         const url = f === 'all' ? '/api/bookings' : `/api/bookings?status=${f}`;
-        state.bookings = await api.get(url);
+        const [rows, prices] = await Promise.all([
+          api.get(url),
+          api.get('/api/price-history?limit=500'),
+        ]);
+        state.bookings = rows;
+        state.latestPrices = buildLatestPriceMap(prices);
         renderBookings();
       } catch (e) { console.error('bookings:', e); }
     }
 
+    // Most recent observed fare per route + travel date + cabin
+    function buildLatestPriceMap(prices) {
+      const map = {};
+      (prices || []).forEach(p => {
+        const key = `${p.origin}|${p.destination}|${p.cabin}|${p.travel_date}`;
+        if (!map[key] || p.scanned_at > map[key].scanned_at) {
+          map[key] = { price: p.price_usd, scanned_at: p.scanned_at };
+        }
+      });
+      return map;
+    }
+
+    function latestPriceFor(b) {
+      const hit = state.latestPrices[`${b.origin}|${b.destination}|${b.cabin}|${b.travel_date}`];
+      return hit ? hit.price : null;
+    }
+
+    function renderPortfolioSummary() {
+      const strip = document.getElementById('portfolio-summary');
+      const held = state.bookings.filter(b => b.status === 'held');
+      if (!held.length) { strip.classList.add('hidden'); return; }
+
+      const totalHeld = held.reduce((s, b) => s + b.price_usd, 0);
+      let currentTotal = 0, optionValue = 0, priced = 0;
+      held.forEach(b => {
+        const cur = latestPriceFor(b);
+        if (cur !== null) {
+          priced += 1;
+          currentTotal += cur;
+          optionValue += cur - b.price_usd;
+        }
+      });
+      const nextDeadline = held
+        .map(b => b.cancel_by)
+        .filter(Boolean)
+        .sort()[0];
+      const nextDays = nextDeadline ? daysUntil(nextDeadline) : null;
+
+      const items = [
+        { label: 'Held Inventory', value: fmt.money(totalHeld), note: `${held.length} seat${held.length > 1 ? 's' : ''} · booked with eCredits` },
+        { label: "Today's Market Value", value: priced ? fmt.money(currentTotal) : '—', note: priced ? `across ${priced} priced seat${priced > 1 ? 's' : ''}` : 'no recent scans' },
+        { label: 'Unrealized Option Value', value: priced ? (optionValue >= 0 ? '+' : '−') + fmt.money(Math.abs(optionValue)) : '—', note: 'current fare vs. booked price', color: optionValue >= 0 ? 'text-emerald-600' : 'text-red-600' },
+        { label: 'Next Decision', value: nextDeadline ? fmt.date(nextDeadline) : '—', note: nextDays !== null ? `${nextDays} day${nextDays === 1 ? '' : 's'} to cancel free` : 'no deadlines pending' },
+      ];
+      strip.innerHTML = items.map(it => `
+        <div class="bg-slate-50 rounded-xl border border-slate-200 p-4">
+          <p class="text-xs text-slate-500 mb-0.5">${it.label}</p>
+          <p class="text-xl font-bold ${it.color || 'text-slate-800'}">${it.value}</p>
+          <p class="text-xs text-slate-400 mt-0.5">${it.note}</p>
+        </div>
+      `).join('');
+      strip.classList.remove('hidden');
+    }
+
     function renderBookings() {
+      renderPortfolioSummary();
       const tbody = document.getElementById('bookings-body');
       const rows = state.bookings;
       if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="8" class="py-12 text-center text-slate-400">No bookings found</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" class="py-12 text-center text-slate-400">No bookings found</td></tr>`;
         return;
       }
       tbody.innerHTML = rows.map(b => {
@@ -606,6 +767,18 @@
         const cancelCell = b.cancel_by
           ? `<span class="${urgent ? 'text-red-600 font-semibold' : ''}">${fmt.date(b.cancel_by)}${urgent ? ` &mdash; ${days}d` : ''}</span>`
           : '<span class="text-slate-400">—</span>';
+
+        const cur = latestPriceFor(b);
+        const todayCell = cur !== null
+          ? `<span class="text-slate-700">${fmt.money(cur)}</span>`
+          : '<span class="text-slate-400">—</span>';
+        let optionCell = '<span class="text-slate-400">—</span>';
+        if (cur !== null && b.status === 'held') {
+          const diff = cur - b.price_usd;
+          optionCell = diff >= 0
+            ? `<span class="text-emerald-600 font-semibold">+${fmt.money(diff)}</span>`
+            : `<span class="text-red-600 font-semibold">−${fmt.money(Math.abs(diff))}</span>`;
+        }
 
         const statusMap = {
           held:      '<span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs rounded-full font-medium">Held</span>',
@@ -622,6 +795,8 @@
           <td class="py-2.5 pr-4 text-sm text-slate-600">${fmt.cabin(b.cabin)}</td>
           <td class="py-2.5 pr-4 text-sm">${fmt.date(b.travel_date)}</td>
           <td class="py-2.5 pr-4 text-sm text-right font-medium">${fmt.money(b.price_usd)}</td>
+          <td class="py-2.5 pr-4 text-sm text-right">${todayCell}</td>
+          <td class="py-2.5 pr-4 text-sm text-right">${optionCell}</td>
           <td class="py-2.5 pr-4 text-sm">${cancelCell}</td>
           <td class="py-2.5 pr-4">${statusMap[b.status] || b.status}</td>
           <td class="py-2.5">${action}</td>
@@ -670,8 +845,78 @@
         ]);
         const route = state.config?.routes.find(r => r.origin === origin && r.destination === destination);
         renderPriceChart(summary, route?.max_price);
+        renderTrendChart(history, route?.max_price);
         renderPriceTable(history);
       } catch (e) { console.error('price data:', e); }
+    }
+
+    // ── Fare trend over scan time ─────────────────────────────────────────
+    function renderTrendChart(history, threshold) {
+      const canvas = document.getElementById('trend-chart');
+      const empty  = document.getElementById('trend-empty');
+
+      // Cheapest fare seen on each scan day
+      const byDay = {};
+      history.forEach(r => {
+        const day = (r.scanned_at || '').slice(0, 10);
+        if (!day) return;
+        if (!(day in byDay) || r.price_usd < byDay[day]) byDay[day] = r.price_usd;
+      });
+      const days = Object.keys(byDay).sort();
+
+      if (days.length < 2) {
+        if (state.trendChart) { state.trendChart.destroy(); state.trendChart = null; }
+        canvas.style.display = 'none';
+        empty.classList.remove('hidden');
+        return;
+      }
+      canvas.style.display = '';
+      empty.classList.add('hidden');
+
+      const mins = days.map(d => byDay[d]);
+      const datasets = [{
+        label: 'Cheapest Fare Seen',
+        data: mins,
+        borderColor: 'rgba(16,185,129,1)',
+        backgroundColor: 'rgba(16,185,129,0.08)',
+        borderWidth: 2,
+        pointRadius: 3,
+        tension: 0.25,
+        fill: true,
+      }];
+      if (threshold) {
+        datasets.push({
+          label: `Threshold (${fmt.money(threshold)})`,
+          data: days.map(() => threshold),
+          borderColor: 'rgba(239,68,68,0.85)',
+          borderDash: [6, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+        });
+      }
+
+      if (state.trendChart) {
+        state.trendChart.data.labels = days;
+        state.trendChart.data.datasets = datasets;
+        state.trendChart.update();
+      } else {
+        state.trendChart = new Chart(canvas.getContext('2d'), {
+          type: 'line',
+          data: { labels: days, datasets },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 14 } },
+              tooltip: { callbacks: { label: ctx => ` ${fmt.money(ctx.raw)}` } },
+            },
+            scales: {
+              x: { ticks: { font: { size: 10 }, maxRotation: 45 }, grid: { display: false } },
+              y: { ticks: { font: { size: 10 }, callback: v => fmt.money(v) }, grid: { color: 'rgba(0,0,0,0.05)' } },
+            },
+          },
+        });
+      }
     }
 
     function renderPriceChart(data, threshold) {
@@ -822,6 +1067,35 @@
 
       document.getElementById('scan-btn').addEventListener('click', triggerScan);
       document.getElementById('route-select').addEventListener('change', loadPriceData);
+
+      document.getElementById('lead-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('lead-btn');
+        const msg = document.getElementById('lead-msg');
+        const email = document.getElementById('lead-email').value.trim();
+        btn.disabled = true;
+        btn.textContent = 'Submitting…';
+        msg.classList.add('hidden');
+        try {
+          const r = await fetch('/api/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+          });
+          if (!r.ok) {
+            const err = await r.json().catch(() => ({}));
+            throw new Error(err.detail || 'Something went wrong');
+          }
+          document.getElementById('lead-form').classList.add('hidden');
+          msg.textContent = "You're on the list — we'll be in touch.";
+          msg.className = 'mt-3 text-sm text-emerald-400';
+        } catch (err) {
+          msg.textContent = err.message + '. Please try again.';
+          msg.className = 'mt-3 text-sm text-red-400';
+          btn.disabled = false;
+          btn.textContent = 'Get Early Access';
+        }
+      });
 
       await Promise.all([loadConfig(), loadStats()]);
       switchTab('overview');

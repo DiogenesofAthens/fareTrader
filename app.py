@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 
 _ON_VERCEL = bool(os.getenv("VERCEL"))
 
@@ -44,6 +44,41 @@ def sitemap():
 @app.get("/llms.txt")
 def llms():
     return FileResponse(STATIC_DIR / "llms.txt", media_type="text/plain")
+
+
+@app.get("/data.json")
+def snapshot():
+    """Latest scan snapshot (written by export_snapshot.py / GitHub Actions)."""
+    path = STATIC_DIR / "data.json"
+    if not path.exists():
+        return JSONResponse({"error": "No snapshot available"}, status_code=404)
+    return FileResponse(path, media_type="application/json")
+
+
+# ---------------------------------------------------------------------------
+# Lead capture — works on Vercel and locally (no SQLite dependency)
+# ---------------------------------------------------------------------------
+
+from fastapi import HTTPException as _HTTPException
+from pydantic import BaseModel as _BaseModel
+
+import leads
+
+
+class _LeadRequest(_BaseModel):
+    email: str
+    note: str = ""
+
+
+@app.post("/api/lead")
+def lead(req: _LeadRequest):
+    if not leads.is_valid_email(req.email.strip().lower()):
+        raise _HTTPException(status_code=400, detail="Invalid email address")
+    try:
+        leads.send_lead(req.email.strip().lower(), req.note.strip())
+    except Exception:
+        raise _HTTPException(status_code=500, detail="Failed to submit. Please try again.")
+    return {"ok": True}
 
 
 # ---------------------------------------------------------------------------
@@ -88,7 +123,24 @@ if not _ON_VERCEL:
                 "SELECT COALESCE(SUM(trigger_count), 0) FROM scan_log"
             ).fetchone()[0]
             total_scans = con.execute("SELECT COUNT(*) FROM scan_log").fetchone()[0]
+            # Spread between the highest fare observed and the price each held
+            # seat was actually booked at — the value the agent captured.
+            savings_rows = con.execute(
+                """SELECT b.price_usd AS booked,
+                          (SELECT MAX(p.price_usd) FROM price_history p
+                            WHERE p.origin = b.origin AND p.destination = b.destination
+                              AND p.cabin = b.cabin AND p.travel_date = b.travel_date) AS max_seen
+                     FROM bookings b WHERE b.status = 'held'"""
+            ).fetchall()
+            savings_captured = round(
+                sum(
+                    (r["max_seen"] - r["booked"])
+                    for r in savings_rows
+                    if r["max_seen"] is not None and r["max_seen"] > r["booked"]
+                )
+            )
         return {
+            "savings_captured_usd": savings_captured,
             "routes_monitored": len(config.ROUTES),
             "held_bookings": int(held),
             "total_price_points": int(prices),
