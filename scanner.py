@@ -106,6 +106,18 @@ def _cabin_code_google(cabin: str) -> str:
     return mapping.get(cabin, "c")
 
 
+# Cheapest believable fare per cabin. Google/Kayak sometimes ignore the cabin
+# filter and surface default-cabin (economy) prices — e.g. $540–$1,794 for
+# transatlantic "Delta One" observed from CI. Anything below the floor is
+# treated as not-our-cabin and discarded; recording nothing beats recording
+# a wrong-cabin price that fires a false trigger.
+_MIN_PLAUSIBLE_BY_CABIN = {"delta_one": 1500.0, "business": 1500.0, "first": 800.0}
+
+
+def _min_plausible(cabin: str) -> float:
+    return _MIN_PLAUSIBLE_BY_CABIN.get(cabin, 500.0)
+
+
 def _parse_google_price(html: str, origin: str, destination: str, cabin: str, travel_date: str) -> Optional[Flight]:
     """
     Parse a price from Google Flights HTML. Google embeds structured data
@@ -120,9 +132,10 @@ def _parse_google_price(html: str, origin: str, destination: str, cabin: str, tr
             # Walk the nested list structure looking for numeric prices
             prices: list[float] = []
             _collect_prices(data, prices)
+            prices = [p for p in prices if p >= _min_plausible(cabin)]
             if prices:
                 price = min(prices)
-                if 500 <= price <= 20_000:
+                if price <= 20_000:
                     return Flight(
                         origin=origin,
                         destination=destination,
@@ -137,7 +150,7 @@ def _parse_google_price(html: str, origin: str, destination: str, cabin: str, tr
     # Fallback: regex scan for dollar amounts in the HTML
     prices_found = [float(m.group(1).replace(",", "")) for m in _PRICE_PATTERN.finditer(html)]
     # Filter to plausible premium-cabin range
-    plausible = [p for p in prices_found if 500 <= p <= 20_000]
+    plausible = [p for p in prices_found if _min_plausible(cabin) <= p <= 20_000]
     if plausible:
         return Flight(
             origin=origin,
@@ -223,7 +236,7 @@ def _scrape_kayak(
         for tag in soup.find_all(attrs={"data-price": True}):
             try:
                 val = float(str(tag["data-price"]).replace(",", ""))
-                if 200 <= val <= 25_000:
+                if _min_plausible(cabin) <= val <= 25_000:
                     price = val if price is None else min(price, val)
             except (ValueError, TypeError):
                 pass
@@ -234,7 +247,7 @@ def _scrape_kayak(
                 data = json.loads(script.string or "")
                 candidates: list[float] = []
                 _collect_prices(data, candidates)
-                plausible = [p for p in candidates if 500 <= p <= 25_000]
+                plausible = [p for p in candidates if _min_plausible(cabin) <= p <= 25_000]
                 if plausible:
                     best = min(plausible)
                     price = best if price is None else min(price, best)
@@ -244,7 +257,7 @@ def _scrape_kayak(
         # Method 3: dollar regex fallback
         if price is None:
             matches = [float(m.group(1).replace(",", "")) for m in _PRICE_PATTERN.finditer(resp.text)]
-            plausible = [p for p in matches if 500 <= p <= 25_000]
+            plausible = [p for p in matches if _min_plausible(cabin) <= p <= 25_000]
             if plausible:
                 price = min(plausible)
 

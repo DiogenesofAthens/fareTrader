@@ -128,10 +128,26 @@ def test_cancel_by_parsing_uses_module_datetime():
 # ---------------------------------------------------------------------------
 
 def test_google_json_price_bounds():
+    """Lower bound is now cabin-aware: wrong-cabin (economy) prices scraped
+    from a page that ignored the cabin filter must be discarded."""
+    import json
+
+    import scanner
+    importlib.reload(scanner)
+
     with open("scanner.py") as f:
         src = f.read()
     assert "price > 100" not in src, "Old loose lower-bound 'price > 100' still present"
-    assert "500 <= price <= 20_000" in src, "Normalized bounds '500 <= price <= 20_000' missing"
+
+    assert scanner._min_plausible("delta_one") == 1500.0
+    assert scanner._min_plausible("business") == 1500.0
+    assert scanner._min_plausible("first") == 800.0
+    assert scanner._min_plausible("unknown_cabin") == 500.0
+
+    # A $900 fare labeled delta_one is economy noise — reject
+    data_json = json.dumps([[900]])
+    fake_html = f'AF_initDataCallback({{key: "x", data: {data_json} }});'
+    assert scanner._parse_google_price(fake_html, "ATL", "CDG", "delta_one", "2026-07-04") is None
 
 
 def test_collect_prices_range():
