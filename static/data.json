@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-07-12T04:06:26.280747+00:00",
+ "generated_at": "2026-07-12T08:42:16.351884+00:00",
  "stats": {
   "routes_monitored": 4,
   "held_bookings": 0,
-  "total_price_points": 5551,
-  "total_triggers": 5549,
-  "total_scans": 40,
+  "total_price_points": 5679,
+  "total_triggers": 5677,
+  "total_scans": 41,
   "last_scan": {
-   "started_at": "2026-07-12T03:53:59.408592",
+   "started_at": "2026-07-12T08:30:37.221163",
    "routes_checked": 4,
    "dates_checked": 128,
    "trigger_count": 128,
@@ -67,6 +67,1286 @@
  },
  "bookings": [],
  "price_history": [
+  {
+   "id": 5823,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-31",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:42:16.346380"
+  },
+  {
+   "id": 5822,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-30",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:42:09.161990"
+  },
+  {
+   "id": 5821,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-24",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:42:02.270684"
+  },
+  {
+   "id": 5820,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-23",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:41:55.408598"
+  },
+  {
+   "id": 5819,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-17",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:41:48.437365"
+  },
+  {
+   "id": 5818,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-16",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:41:41.613821"
+  },
+  {
+   "id": 5817,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-10",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:41:34.611267"
+  },
+  {
+   "id": 5816,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-09",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:41:27.665273"
+  },
+  {
+   "id": 5815,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-03",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:41:20.714355"
+  },
+  {
+   "id": 5814,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-02",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:41:13.828784"
+  },
+  {
+   "id": 5813,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-26",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:41:06.957393"
+  },
+  {
+   "id": 5812,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-25",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:59.918083"
+  },
+  {
+   "id": 5811,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-19",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:52.992334"
+  },
+  {
+   "id": 5810,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-18",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:46.114992"
+  },
+  {
+   "id": 5809,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-12",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:39.110512"
+  },
+  {
+   "id": 5808,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-11",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:32.164173"
+  },
+  {
+   "id": 5807,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-05",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:25.154084"
+  },
+  {
+   "id": 5806,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-04",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:18.162232"
+  },
+  {
+   "id": 5805,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-29",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:11.265108"
+  },
+  {
+   "id": 5804,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-28",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:40:04.230445"
+  },
+  {
+   "id": 5803,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-22",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:57.339986"
+  },
+  {
+   "id": 5802,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-21",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:50.391810"
+  },
+  {
+   "id": 5801,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-15",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:43.503462"
+  },
+  {
+   "id": 5800,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-14",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:36.582051"
+  },
+  {
+   "id": 5799,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-08",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:29.519978"
+  },
+  {
+   "id": 5798,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-07",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:22.572859"
+  },
+  {
+   "id": 5797,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-01",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:15.647967"
+  },
+  {
+   "id": 5796,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-31",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:08.771525"
+  },
+  {
+   "id": 5795,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-25",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:39:01.702489"
+  },
+  {
+   "id": 5794,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-24",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:38:54.711572"
+  },
+  {
+   "id": 5793,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-18",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:38:47.997377"
+  },
+  {
+   "id": 5792,
+   "origin": "JFK",
+   "destination": "MXP",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-17",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:38:41.050466"
+  },
+  {
+   "id": 5791,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-31",
+   "price_usd": 1748.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:38:34.008154"
+  },
+  {
+   "id": 5790,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-30",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:38:30.376871"
+  },
+  {
+   "id": 5789,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-24",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:38:23.392433"
+  },
+  {
+   "id": 5788,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-23",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:38:16.452369"
+  },
+  {
+   "id": 5787,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-17",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:38:09.574004"
+  },
+  {
+   "id": 5786,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-16",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:38:02.574534"
+  },
+  {
+   "id": 5785,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-10",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:37:55.567647"
+  },
+  {
+   "id": 5784,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-09",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:37:48.584865"
+  },
+  {
+   "id": 5783,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-03",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:37:41.548157"
+  },
+  {
+   "id": 5782,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-02",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:37:34.569922"
+  },
+  {
+   "id": 5781,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-26",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:37:27.574711"
+  },
+  {
+   "id": 5780,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-25",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:37:20.618976"
+  },
+  {
+   "id": 5779,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-19",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:37:13.706220"
+  },
+  {
+   "id": 5778,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-18",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:37:06.611929"
+  },
+  {
+   "id": 5777,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-12",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:59.660167"
+  },
+  {
+   "id": 5776,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-11",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:52.517059"
+  },
+  {
+   "id": 5775,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-05",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:45.642739"
+  },
+  {
+   "id": 5774,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-04",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:38.624334"
+  },
+  {
+   "id": 5773,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-29",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:31.766094"
+  },
+  {
+   "id": 5772,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-28",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:24.757999"
+  },
+  {
+   "id": 5771,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-22",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:17.758524"
+  },
+  {
+   "id": 5770,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-21",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:10.814766"
+  },
+  {
+   "id": 5769,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-15",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:36:03.927473"
+  },
+  {
+   "id": 5768,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-14",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:35:56.893089"
+  },
+  {
+   "id": 5767,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-08",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:35:49.978824"
+  },
+  {
+   "id": 5766,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-07",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:35:43.084620"
+  },
+  {
+   "id": 5765,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-01",
+   "price_usd": 1510.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:35:36.355152"
+  },
+  {
+   "id": 5764,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-31",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:35:32.772400"
+  },
+  {
+   "id": 5763,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-25",
+   "price_usd": 1510.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:35:25.850076"
+  },
+  {
+   "id": 5762,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-24",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:35:22.347567"
+  },
+  {
+   "id": 5761,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-18",
+   "price_usd": 1510.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:35:15.358605"
+  },
+  {
+   "id": 5760,
+   "origin": "ATL",
+   "destination": "LHR",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-17",
+   "price_usd": 1661.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:35:11.741973"
+  },
+  {
+   "id": 5759,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-31",
+   "price_usd": 1528.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:35:08.138078"
+  },
+  {
+   "id": 5758,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-30",
+   "price_usd": 1576.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:35:04.613728"
+  },
+  {
+   "id": 5757,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-24",
+   "price_usd": 1759.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:35:01.101872"
+  },
+  {
+   "id": 5756,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-23",
+   "price_usd": 1528.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:57.519361"
+  },
+  {
+   "id": 5755,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-17",
+   "price_usd": 1552.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:54.072959"
+  },
+  {
+   "id": 5754,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-16",
+   "price_usd": 1552.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:50.498220"
+  },
+  {
+   "id": 5753,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-10",
+   "price_usd": 1552.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:46.965708"
+  },
+  {
+   "id": 5752,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-09",
+   "price_usd": 1552.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:43.353649"
+  },
+  {
+   "id": 5751,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-03",
+   "price_usd": 1537.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:39.847986"
+  },
+  {
+   "id": 5750,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-02",
+   "price_usd": 1528.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:36.273637"
+  },
+  {
+   "id": 5749,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-26",
+   "price_usd": 1537.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:32.716797"
+  },
+  {
+   "id": 5748,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-25",
+   "price_usd": 1562.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:29.191083"
+  },
+  {
+   "id": 5747,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-19",
+   "price_usd": 1537.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:25.669335"
+  },
+  {
+   "id": 5746,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-18",
+   "price_usd": 1582.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:22.161667"
+  },
+  {
+   "id": 5745,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-12",
+   "price_usd": 1552.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:18.611810"
+  },
+  {
+   "id": 5744,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-11",
+   "price_usd": 1552.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:15.001069"
+  },
+  {
+   "id": 5743,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-05",
+   "price_usd": 1552.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:11.475398"
+  },
+  {
+   "id": 5742,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-04",
+   "price_usd": 1552.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:07.961932"
+  },
+  {
+   "id": 5741,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-29",
+   "price_usd": 1537.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:04.523060"
+  },
+  {
+   "id": 5740,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-28",
+   "price_usd": 1538.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:34:00.922832"
+  },
+  {
+   "id": 5739,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-22",
+   "price_usd": 1538.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:57.439384"
+  },
+  {
+   "id": 5738,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-21",
+   "price_usd": 1538.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:53.883061"
+  },
+  {
+   "id": 5737,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-15",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:33:50.371196"
+  },
+  {
+   "id": 5736,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-14",
+   "price_usd": 1538.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:43.697857"
+  },
+  {
+   "id": 5735,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-08",
+   "price_usd": 1535.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:40.165540"
+  },
+  {
+   "id": 5734,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-07",
+   "price_usd": 1538.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:36.666461"
+  },
+  {
+   "id": 5733,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-01",
+   "price_usd": 1500.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:33.065317"
+  },
+  {
+   "id": 5732,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-31",
+   "price_usd": 1538.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:29.551930"
+  },
+  {
+   "id": 5731,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-25",
+   "price_usd": 1655.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:26.033711"
+  },
+  {
+   "id": 5730,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-24",
+   "price_usd": 1670.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:22.500192"
+  },
+  {
+   "id": 5729,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-18",
+   "price_usd": 1538.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:18.964910"
+  },
+  {
+   "id": 5728,
+   "origin": "ATL",
+   "destination": "NRT",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-17",
+   "price_usd": 1538.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:33:15.407068"
+  },
+  {
+   "id": 5727,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-31",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:33:11.816838"
+  },
+  {
+   "id": 5726,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-30",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:33:04.874524"
+  },
+  {
+   "id": 5725,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-24",
+   "price_usd": 1562.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:32:57.895774"
+  },
+  {
+   "id": 5724,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-23",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:32:54.309434"
+  },
+  {
+   "id": 5723,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-17",
+   "price_usd": 1535.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:32:47.383901"
+  },
+  {
+   "id": 5722,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-16",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:32:43.912366"
+  },
+  {
+   "id": 5721,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-10",
+   "price_usd": 1535.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:32:36.940720"
+  },
+  {
+   "id": 5720,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-09",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:32:33.269218"
+  },
+  {
+   "id": 5719,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-03",
+   "price_usd": 1535.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:32:26.300083"
+  },
+  {
+   "id": 5718,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-10-02",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:32:22.760580"
+  },
+  {
+   "id": 5717,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-26",
+   "price_usd": 1535.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:32:15.800434"
+  },
+  {
+   "id": 5716,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-25",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:32:12.290621"
+  },
+  {
+   "id": 5715,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-19",
+   "price_usd": 1535.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:32:05.277336"
+  },
+  {
+   "id": 5714,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-18",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:32:01.747245"
+  },
+  {
+   "id": 5713,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-12",
+   "price_usd": 1535.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:31:54.747414"
+  },
+  {
+   "id": 5712,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-11",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:31:51.115203"
+  },
+  {
+   "id": 5711,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-05",
+   "price_usd": 1562.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:31:44.176608"
+  },
+  {
+   "id": 5710,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-09-04",
+   "price_usd": 1505.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:31:40.638388"
+  },
+  {
+   "id": 5709,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-29",
+   "price_usd": 2192.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:31:37.073440"
+  },
+  {
+   "id": 5708,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-28",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:31:33.542357"
+  },
+  {
+   "id": 5707,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-22",
+   "price_usd": 1747.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:31:26.499917"
+  },
+  {
+   "id": 5706,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-21",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:31:23.026721"
+  },
+  {
+   "id": 5705,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-15",
+   "price_usd": 1762.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:31:16.084018"
+  },
+  {
+   "id": 5704,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-14",
+   "price_usd": 2000.0,
+   "source": "kayak",
+   "scanned_at": "2026-07-12T08:31:12.611524"
+  },
+  {
+   "id": 5703,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-08",
+   "price_usd": 1818.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:31:05.645952"
+  },
+  {
+   "id": 5702,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-07",
+   "price_usd": 2092.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:31:02.054060"
+  },
+  {
+   "id": 5701,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-08-01",
+   "price_usd": 1632.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:30:58.497123"
+  },
+  {
+   "id": 5700,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-31",
+   "price_usd": 1632.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:30:55.014627"
+  },
+  {
+   "id": 5699,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-25",
+   "price_usd": 1628.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:30:51.473663"
+  },
+  {
+   "id": 5698,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-24",
+   "price_usd": 1900.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:30:47.932708"
+  },
+  {
+   "id": 5697,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-18",
+   "price_usd": 1530.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:30:44.310112"
+  },
+  {
+   "id": 5696,
+   "origin": "ATL",
+   "destination": "CDG",
+   "cabin": "delta_one",
+   "travel_date": "2026-07-17",
+   "price_usd": 1555.0,
+   "source": "google_flights",
+   "scanned_at": "2026-07-12T08:30:40.783981"
+  },
   {
    "id": 5695,
    "origin": "JFK",
@@ -3786,1289 +5066,20 @@
    "price_usd": 2000.0,
    "source": "kayak",
    "scanned_at": "2026-07-11T13:52:48.629051"
-  },
-  {
-   "id": 5323,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-18",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T13:52:41.829512"
-  },
-  {
-   "id": 5322,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-12",
-   "price_usd": 1535.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:52:34.915504"
-  },
-  {
-   "id": 5321,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-11",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T13:52:31.359602"
-  },
-  {
-   "id": 5320,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-05",
-   "price_usd": 1562.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:52:24.331520"
-  },
-  {
-   "id": 5319,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-04",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T13:52:20.614890"
-  },
-  {
-   "id": 5318,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-29",
-   "price_usd": 2192.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:52:13.634530"
-  },
-  {
-   "id": 5317,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-28",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T13:52:10.103119"
-  },
-  {
-   "id": 5316,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-22",
-   "price_usd": 1747.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:52:03.256054"
-  },
-  {
-   "id": 5315,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-21",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T13:51:59.695238"
-  },
-  {
-   "id": 5314,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-15",
-   "price_usd": 1762.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:52.651515"
-  },
-  {
-   "id": 5313,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-14",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T13:51:49.050507"
-  },
-  {
-   "id": 5312,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-08",
-   "price_usd": 2092.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:42.055952"
-  },
-  {
-   "id": 5311,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-07",
-   "price_usd": 2092.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:38.468251"
-  },
-  {
-   "id": 5310,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-01",
-   "price_usd": 1632.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:34.941249"
-  },
-  {
-   "id": 5309,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-31",
-   "price_usd": 1587.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:31.341926"
-  },
-  {
-   "id": 5308,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-25",
-   "price_usd": 1628.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:27.696899"
-  },
-  {
-   "id": 5307,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-24",
-   "price_usd": 1840.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:24.063747"
-  },
-  {
-   "id": 5306,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-18",
-   "price_usd": 1530.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:20.472688"
-  },
-  {
-   "id": 5305,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-17",
-   "price_usd": 2125.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:16.812584"
-  },
-  {
-   "id": 5304,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-11",
-   "price_usd": 1925.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T13:51:13.279122"
-  },
-  {
-   "id": 5303,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-31",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:26:01.225053"
-  },
-  {
-   "id": 5302,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-30",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:25:54.045833"
-  },
-  {
-   "id": 5301,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-24",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:25:46.957452"
-  },
-  {
-   "id": 5300,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-23",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:25:39.976728"
-  },
-  {
-   "id": 5299,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-17",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:25:32.821178"
-  },
-  {
-   "id": 5298,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-16",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:25:25.484374"
-  },
-  {
-   "id": 5297,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-10",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:25:18.366055"
-  },
-  {
-   "id": 5296,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-09",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:25:11.066361"
-  },
-  {
-   "id": 5295,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-03",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:25:03.805777"
-  },
-  {
-   "id": 5294,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-02",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:24:56.818238"
-  },
-  {
-   "id": 5293,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-26",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:24:49.601051"
-  },
-  {
-   "id": 5292,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-25",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:24:42.335341"
-  },
-  {
-   "id": 5291,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-19",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:24:35.035775"
-  },
-  {
-   "id": 5290,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-18",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:24:27.725754"
-  },
-  {
-   "id": 5289,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-12",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:24:20.505596"
-  },
-  {
-   "id": 5288,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-11",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:24:13.191716"
-  },
-  {
-   "id": 5287,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-05",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:24:05.826338"
-  },
-  {
-   "id": 5286,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-04",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:58.443583"
-  },
-  {
-   "id": 5285,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-29",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:51.302339"
-  },
-  {
-   "id": 5284,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-28",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:44.086543"
-  },
-  {
-   "id": 5283,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-22",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:36.944225"
-  },
-  {
-   "id": 5282,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-21",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:29.706892"
-  },
-  {
-   "id": 5281,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-15",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:22.557054"
-  },
-  {
-   "id": 5280,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-14",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:15.437875"
-  },
-  {
-   "id": 5279,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-08",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:08.127220"
-  },
-  {
-   "id": 5278,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-07",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:23:01.164313"
-  },
-  {
-   "id": 5277,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-01",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:22:53.814113"
-  },
-  {
-   "id": 5276,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-31",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:22:46.666032"
-  },
-  {
-   "id": 5275,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-25",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:22:39.608045"
-  },
-  {
-   "id": 5274,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-24",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:22:32.488566"
-  },
-  {
-   "id": 5273,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-18",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:22:25.259723"
-  },
-  {
-   "id": 5272,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-17",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:22:18.082745"
-  },
-  {
-   "id": 5271,
-   "origin": "JFK",
-   "destination": "MXP",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-11",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:22:10.782996"
-  },
-  {
-   "id": 5270,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-31",
-   "price_usd": 1748.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:22:03.427209"
-  },
-  {
-   "id": 5269,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-30",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:59.894780"
-  },
-  {
-   "id": 5268,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-24",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:52.618019"
-  },
-  {
-   "id": 5267,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-23",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:45.423007"
-  },
-  {
-   "id": 5266,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-17",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:38.439362"
-  },
-  {
-   "id": 5265,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-16",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:31.263399"
-  },
-  {
-   "id": 5264,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-10",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:24.011061"
-  },
-  {
-   "id": 5263,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-09",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:16.990669"
-  },
-  {
-   "id": 5262,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-03",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:09.828847"
-  },
-  {
-   "id": 5261,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-02",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:21:02.474203"
-  },
-  {
-   "id": 5260,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-26",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:20:55.276409"
-  },
-  {
-   "id": 5259,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-25",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:20:47.860989"
-  },
-  {
-   "id": 5258,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-19",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:20:40.674311"
-  },
-  {
-   "id": 5257,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-18",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:20:33.456411"
-  },
-  {
-   "id": 5256,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-12",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:20:26.141859"
-  },
-  {
-   "id": 5255,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-11",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:20:18.857161"
-  },
-  {
-   "id": 5254,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-05",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:20:11.455727"
-  },
-  {
-   "id": 5253,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-04",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:20:04.037218"
-  },
-  {
-   "id": 5252,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-29",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:19:56.770777"
-  },
-  {
-   "id": 5251,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-28",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:19:49.389006"
-  },
-  {
-   "id": 5250,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-22",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:19:42.015296"
-  },
-  {
-   "id": 5249,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-21",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:19:34.775000"
-  },
-  {
-   "id": 5248,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-15",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:19:27.575719"
-  },
-  {
-   "id": 5247,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-14",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:19:20.303945"
-  },
-  {
-   "id": 5246,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-08",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:19:13.042729"
-  },
-  {
-   "id": 5245,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-07",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:19:05.601369"
-  },
-  {
-   "id": 5244,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-01",
-   "price_usd": 1510.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:58.206412"
-  },
-  {
-   "id": 5243,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-31",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:18:54.650238"
-  },
-  {
-   "id": 5242,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-25",
-   "price_usd": 1510.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:47.457780"
-  },
-  {
-   "id": 5241,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-24",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:18:43.881992"
-  },
-  {
-   "id": 5240,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-18",
-   "price_usd": 1500.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:36.422932"
-  },
-  {
-   "id": 5239,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-17",
-   "price_usd": 1791.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:32.814354"
-  },
-  {
-   "id": 5238,
-   "origin": "ATL",
-   "destination": "LHR",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-11",
-   "price_usd": 1581.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:29.221785"
-  },
-  {
-   "id": 5237,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-31",
-   "price_usd": 1553.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:25.700613"
-  },
-  {
-   "id": 5236,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-30",
-   "price_usd": 1574.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:22.127153"
-  },
-  {
-   "id": 5235,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-24",
-   "price_usd": 1643.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:18.470616"
-  },
-  {
-   "id": 5234,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-23",
-   "price_usd": 1528.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:14.895684"
-  },
-  {
-   "id": 5233,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-17",
-   "price_usd": 1552.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:11.326803"
-  },
-  {
-   "id": 5232,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-16",
-   "price_usd": 1552.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:07.730283"
-  },
-  {
-   "id": 5231,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-10",
-   "price_usd": 1552.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:04.243530"
-  },
-  {
-   "id": 5230,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-09",
-   "price_usd": 1633.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:18:00.518331"
-  },
-  {
-   "id": 5229,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-03",
-   "price_usd": 1537.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:56.992378"
-  },
-  {
-   "id": 5228,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-02",
-   "price_usd": 1528.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:53.438890"
-  },
-  {
-   "id": 5227,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-26",
-   "price_usd": 1537.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:49.910983"
-  },
-  {
-   "id": 5226,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-25",
-   "price_usd": 1562.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:46.344855"
-  },
-  {
-   "id": 5225,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-19",
-   "price_usd": 1537.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:42.784914"
-  },
-  {
-   "id": 5224,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-18",
-   "price_usd": 1633.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:39.118376"
-  },
-  {
-   "id": 5223,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-12",
-   "price_usd": 1552.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:35.583104"
-  },
-  {
-   "id": 5222,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-11",
-   "price_usd": 1552.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:32.019596"
-  },
-  {
-   "id": 5221,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-05",
-   "price_usd": 1537.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:28.449947"
-  },
-  {
-   "id": 5220,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-09-04",
-   "price_usd": 1552.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:24.867420"
-  },
-  {
-   "id": 5219,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-29",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:21.331366"
-  },
-  {
-   "id": 5218,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-28",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:17.760166"
-  },
-  {
-   "id": 5217,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-22",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:14.217952"
-  },
-  {
-   "id": 5216,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-21",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:10.719568"
-  },
-  {
-   "id": 5215,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-15",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:07.047702"
-  },
-  {
-   "id": 5214,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-14",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:17:03.472835"
-  },
-  {
-   "id": 5213,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-08",
-   "price_usd": 1535.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:59.924456"
-  },
-  {
-   "id": 5212,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-07",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:56.362873"
-  },
-  {
-   "id": 5211,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-08-01",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:52.864455"
-  },
-  {
-   "id": 5210,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-31",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:49.210714"
-  },
-  {
-   "id": 5209,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-25",
-   "price_usd": 1655.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:45.669934"
-  },
-  {
-   "id": 5208,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-24",
-   "price_usd": 1670.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:42.065811"
-  },
-  {
-   "id": 5207,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-18",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:38.484153"
-  },
-  {
-   "id": 5206,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-17",
-   "price_usd": 1538.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:34.759966"
-  },
-  {
-   "id": 5205,
-   "origin": "ATL",
-   "destination": "NRT",
-   "cabin": "delta_one",
-   "travel_date": "2026-07-11",
-   "price_usd": 1656.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:31.177913"
-  },
-  {
-   "id": 5204,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-31",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:16:27.487511"
-  },
-  {
-   "id": 5203,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-30",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:16:20.443689"
-  },
-  {
-   "id": 5202,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-24",
-   "price_usd": 1562.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:13.028475"
-  },
-  {
-   "id": 5201,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-23",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:16:09.440101"
-  },
-  {
-   "id": 5200,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-17",
-   "price_usd": 1535.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:16:02.286383"
-  },
-  {
-   "id": 5199,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-16",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:15:58.654017"
-  },
-  {
-   "id": 5198,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-10",
-   "price_usd": 1535.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:15:51.319234"
-  },
-  {
-   "id": 5197,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-09",
-   "price_usd": 2000.0,
-   "source": "kayak",
-   "scanned_at": "2026-07-11T08:15:47.712595"
-  },
-  {
-   "id": 5196,
-   "origin": "ATL",
-   "destination": "CDG",
-   "cabin": "delta_one",
-   "travel_date": "2026-10-03",
-   "price_usd": 1535.0,
-   "source": "google_flights",
-   "scanned_at": "2026-07-11T08:15:40.602477"
   }
  ],
  "scan_log": [
+  {
+   "id": 42,
+   "started_at": "2026-07-12T08:30:37.221163",
+   "finished_at": "2026-07-12T08:42:16.349849",
+   "routes_checked": 4,
+   "dates_checked": 128,
+   "trigger_count": 128,
+   "booking_count": 0,
+   "error_count": 96,
+   "dry_run": 1
+  },
   {
    "id": 41,
    "started_at": "2026-07-12T03:53:59.408592",
@@ -5387,17 +5398,6 @@
    "booking_count": 0,
    "error_count": 102,
    "dry_run": 1
-  },
-  {
-   "id": 12,
-   "started_at": "2026-07-04T19:35:11.298218",
-   "finished_at": "2026-07-04T19:47:45.570718",
-   "routes_checked": 4,
-   "dates_checked": 140,
-   "trigger_count": 140,
-   "booking_count": 0,
-   "error_count": 105,
-   "dry_run": 1
   }
  ],
  "price_summary": {
@@ -5406,225 +5406,225 @@
     "travel_date": "2026-07-17",
     "min_price": 717.0,
     "max_price": 2215.0,
-    "avg_price": 1751.0,
-    "observations": 160
+    "avg_price": 1749.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-07-18",
     "min_price": 748.0,
     "max_price": 2000.0,
-    "avg_price": 1684.0,
-    "observations": 160
+    "avg_price": 1683.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-07-24",
     "min_price": 1000.0,
     "max_price": 2587.0,
     "avg_price": 1864.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-07-25",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1718.0,
-    "observations": 160
+    "avg_price": 1717.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-07-31",
     "min_price": 1000.0,
     "max_price": 2092.0,
-    "avg_price": 1827.0,
-    "observations": 160
+    "avg_price": 1826.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-08-01",
     "min_price": 713.0,
     "max_price": 3012.0,
-    "avg_price": 1727.0,
-    "observations": 160
+    "avg_price": 1726.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-08-07",
     "min_price": 767.0,
     "max_price": 2092.0,
-    "avg_price": 1866.0,
-    "observations": 160
+    "avg_price": 1867.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-08-08",
     "min_price": 713.0,
     "max_price": 2092.0,
-    "avg_price": 1876.0,
-    "observations": 160
+    "avg_price": 1875.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-08-14",
     "min_price": 960.0,
     "max_price": 2000.0,
     "avg_price": 1865.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-08-15",
     "min_price": 891.0,
     "max_price": 2092.0,
-    "avg_price": 1854.0,
-    "observations": 160
+    "avg_price": 1857.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-08-21",
     "min_price": 953.0,
     "max_price": 2000.0,
-    "avg_price": 1863.0,
-    "observations": 160
+    "avg_price": 1864.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-08-22",
     "min_price": 891.0,
     "max_price": 2000.0,
     "avg_price": 1800.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-08-28",
     "min_price": 676.0,
     "max_price": 2180.0,
-    "avg_price": 1851.0,
-    "observations": 160
+    "avg_price": 1852.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-08-29",
     "min_price": 686.0,
     "max_price": 2192.0,
     "avg_price": 1903.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-09-04",
     "min_price": 540.0,
     "max_price": 2000.0,
-    "avg_price": 1860.0,
-    "observations": 160
+    "avg_price": 1858.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-09-05",
     "min_price": 616.0,
     "max_price": 2192.0,
-    "avg_price": 1759.0,
-    "observations": 160
+    "avg_price": 1760.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-09-11",
     "min_price": 904.0,
     "max_price": 2000.0,
     "avg_price": 1865.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-09-12",
     "min_price": 760.0,
     "max_price": 2192.0,
     "avg_price": 1779.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-09-18",
     "min_price": 904.0,
     "max_price": 2000.0,
     "avg_price": 1868.0,
-    "observations": 159
+    "observations": 163
    },
    {
     "travel_date": "2026-09-19",
     "min_price": 538.0,
     "max_price": 2192.0,
     "avg_price": 1778.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-09-25",
     "min_price": 842.0,
     "max_price": 2000.0,
-    "avg_price": 1853.0,
-    "observations": 160
+    "avg_price": 1854.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-09-26",
     "min_price": 760.0,
     "max_price": 2280.0,
-    "avg_price": 1791.0,
-    "observations": 160
+    "avg_price": 1790.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-10-02",
     "min_price": 904.0,
     "max_price": 2000.0,
-    "avg_price": 1858.0,
-    "observations": 160
+    "avg_price": 1859.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-10-03",
     "min_price": 800.0,
     "max_price": 2192.0,
     "avg_price": 1776.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-10-09",
     "min_price": 561.0,
     "max_price": 2000.0,
-    "avg_price": 1865.0,
-    "observations": 160
+    "avg_price": 1866.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-10-10",
     "min_price": 572.0,
     "max_price": 2192.0,
     "avg_price": 1789.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-10-16",
     "min_price": 561.0,
     "max_price": 2000.0,
     "avg_price": 1859.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-10-17",
     "min_price": 572.0,
     "max_price": 2192.0,
     "avg_price": 1771.0,
-    "observations": 160
+    "observations": 164
    },
    {
     "travel_date": "2026-10-23",
     "min_price": 561.0,
     "max_price": 2000.0,
-    "avg_price": 1848.0,
-    "observations": 160
+    "avg_price": 1849.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-10-24",
     "min_price": 606.0,
     "max_price": 2192.0,
-    "avg_price": 1782.0,
-    "observations": 160
+    "avg_price": 1783.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-10-30",
     "min_price": 692.0,
     "max_price": 2000.0,
-    "avg_price": 1865.0,
-    "observations": 160
+    "avg_price": 1866.0,
+    "observations": 164
    },
    {
     "travel_date": "2026-10-31",
     "min_price": 578.0,
     "max_price": 2000.0,
     "avg_price": 1802.0,
-    "observations": 160
+    "observations": 164
    }
   ],
   "ATL|CDG": [
@@ -5632,225 +5632,225 @@
     "travel_date": "2026-07-17",
     "min_price": 1075.0,
     "max_price": 2215.0,
-    "avg_price": 1785.0,
-    "observations": 40
+    "avg_price": 1779.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-18",
     "min_price": 1068.0,
     "max_price": 2000.0,
-    "avg_price": 1654.0,
-    "observations": 40
+    "avg_price": 1651.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-24",
     "min_price": 1075.0,
     "max_price": 2587.0,
     "avg_price": 1865.0,
-    "observations": 40
+    "observations": 41
    },
    {
     "travel_date": "2026-07-25",
     "min_price": 1268.0,
     "max_price": 2000.0,
-    "avg_price": 1682.0,
-    "observations": 40
+    "avg_price": 1680.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-31",
     "min_price": 1000.0,
     "max_price": 2092.0,
-    "avg_price": 1800.0,
-    "observations": 40
+    "avg_price": 1796.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-01",
     "min_price": 1218.0,
     "max_price": 3012.0,
-    "avg_price": 1822.0,
-    "observations": 40
+    "avg_price": 1818.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-07",
     "min_price": 1069.0,
     "max_price": 2092.0,
-    "avg_price": 1960.0,
-    "observations": 40
+    "avg_price": 1964.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-08",
     "min_price": 1103.0,
     "max_price": 2092.0,
-    "avg_price": 2029.0,
-    "observations": 40
+    "avg_price": 2024.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-14",
     "min_price": 1054.0,
     "max_price": 2000.0,
-    "avg_price": 1953.0,
-    "observations": 40
+    "avg_price": 1954.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-15",
     "min_price": 996.0,
     "max_price": 2092.0,
-    "avg_price": 1894.0,
-    "observations": 40
+    "avg_price": 1891.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-21",
     "min_price": 953.0,
     "max_price": 2000.0,
-    "avg_price": 1948.0,
-    "observations": 40
+    "avg_price": 1949.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-22",
     "min_price": 904.0,
     "max_price": 2000.0,
-    "avg_price": 1705.0,
-    "observations": 40
+    "avg_price": 1706.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-28",
     "min_price": 730.0,
     "max_price": 2000.0,
-    "avg_price": 1903.0,
-    "observations": 40
+    "avg_price": 1905.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-29",
     "min_price": 810.0,
     "max_price": 2192.0,
-    "avg_price": 2098.0,
-    "observations": 40
+    "avg_price": 2100.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-04",
     "min_price": 904.0,
     "max_price": 2000.0,
-    "avg_price": 1945.0,
-    "observations": 40
+    "avg_price": 1934.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-05",
     "min_price": 904.0,
     "max_price": 2192.0,
-    "avg_price": 1613.0,
-    "observations": 40
+    "avg_price": 1612.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-11",
     "min_price": 904.0,
     "max_price": 2000.0,
-    "avg_price": 1945.0,
-    "observations": 40
+    "avg_price": 1947.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-12",
     "min_price": 760.0,
     "max_price": 2192.0,
-    "avg_price": 1639.0,
-    "observations": 40
+    "avg_price": 1636.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-18",
     "min_price": 904.0,
     "max_price": 2000.0,
-    "avg_price": 1945.0,
-    "observations": 40
+    "avg_price": 1947.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-19",
     "min_price": 877.0,
     "max_price": 2192.0,
-    "avg_price": 1628.0,
-    "observations": 40
+    "avg_price": 1626.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-25",
     "min_price": 904.0,
     "max_price": 2000.0,
-    "avg_price": 1945.0,
-    "observations": 40
+    "avg_price": 1947.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-26",
     "min_price": 760.0,
     "max_price": 2192.0,
-    "avg_price": 1606.0,
-    "observations": 40
+    "avg_price": 1604.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-02",
     "min_price": 904.0,
     "max_price": 2000.0,
-    "avg_price": 1945.0,
-    "observations": 40
+    "avg_price": 1947.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-03",
     "min_price": 800.0,
     "max_price": 2192.0,
-    "avg_price": 1616.0,
-    "observations": 40
+    "avg_price": 1614.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-09",
     "min_price": 904.0,
     "max_price": 2000.0,
-    "avg_price": 1945.0,
-    "observations": 40
+    "avg_price": 1947.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-10",
     "min_price": 904.0,
     "max_price": 2192.0,
-    "avg_price": 1656.0,
-    "observations": 40
+    "avg_price": 1653.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-16",
     "min_price": 953.0,
     "max_price": 2000.0,
-    "avg_price": 1948.0,
-    "observations": 40
+    "avg_price": 1949.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-17",
     "min_price": 741.0,
     "max_price": 2192.0,
-    "avg_price": 1603.0,
-    "observations": 40
+    "avg_price": 1601.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-23",
     "min_price": 800.0,
     "max_price": 2000.0,
-    "avg_price": 1940.0,
-    "observations": 40
+    "avg_price": 1941.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-24",
     "min_price": 730.0,
     "max_price": 2192.0,
-    "avg_price": 1612.0,
-    "observations": 40
+    "avg_price": 1611.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-30",
     "min_price": 877.0,
     "max_price": 2000.0,
-    "avg_price": 1944.0,
-    "observations": 40
+    "avg_price": 1945.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-31",
     "min_price": 872.0,
     "max_price": 2000.0,
-    "avg_price": 1944.0,
-    "observations": 40
+    "avg_price": 1945.0,
+    "observations": 41
    }
   ],
   "ATL|NRT": [
@@ -5858,225 +5858,225 @@
     "travel_date": "2026-07-17",
     "min_price": 1468.0,
     "max_price": 2000.0,
-    "avg_price": 1606.0,
-    "observations": 40
+    "avg_price": 1605.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-18",
     "min_price": 1513.0,
     "max_price": 2000.0,
-    "avg_price": 1605.0,
-    "observations": 40
+    "avg_price": 1603.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-24",
     "min_price": 1538.0,
     "max_price": 2000.0,
-    "avg_price": 1684.0,
-    "observations": 40
+    "avg_price": 1683.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-25",
     "min_price": 1552.0,
     "max_price": 2000.0,
-    "avg_price": 1723.0,
-    "observations": 40
+    "avg_price": 1721.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-31",
     "min_price": 1521.0,
     "max_price": 2000.0,
-    "avg_price": 1638.0,
-    "observations": 40
+    "avg_price": 1635.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-01",
-    "min_price": 1513.0,
+    "min_price": 1500.0,
     "max_price": 2000.0,
-    "avg_price": 1606.0,
-    "observations": 40
+    "avg_price": 1603.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-07",
     "min_price": 1521.0,
     "max_price": 2000.0,
-    "avg_price": 1604.0,
-    "observations": 40
+    "avg_price": 1602.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-08",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1579.0,
-    "observations": 40
+    "avg_price": 1578.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-14",
     "min_price": 1538.0,
     "max_price": 2000.0,
-    "avg_price": 1607.0,
-    "observations": 40
+    "avg_price": 1606.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-15",
     "min_price": 1503.0,
     "max_price": 2000.0,
-    "avg_price": 1630.0,
-    "observations": 40
+    "avg_price": 1639.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-21",
     "min_price": 1487.0,
     "max_price": 2000.0,
-    "avg_price": 1605.0,
-    "observations": 40
+    "avg_price": 1603.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-22",
     "min_price": 1362.0,
     "max_price": 2000.0,
-    "avg_price": 1596.0,
-    "observations": 40
+    "avg_price": 1595.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-28",
     "min_price": 1487.0,
     "max_price": 2180.0,
-    "avg_price": 1646.0,
-    "observations": 40
+    "avg_price": 1643.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-29",
     "min_price": 1000.0,
     "max_price": 2180.0,
-    "avg_price": 1622.0,
-    "observations": 40
+    "avg_price": 1620.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-04",
     "min_price": 1521.0,
     "max_price": 2000.0,
-    "avg_price": 1625.0,
-    "observations": 40
+    "avg_price": 1624.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-05",
     "min_price": 1000.0,
     "max_price": 2000.0,
     "avg_price": 1575.0,
-    "observations": 40
+    "observations": 41
    },
    {
     "travel_date": "2026-09-11",
     "min_price": 1463.0,
     "max_price": 2000.0,
-    "avg_price": 1615.0,
-    "observations": 40
+    "avg_price": 1613.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-12",
     "min_price": 1279.0,
     "max_price": 2000.0,
-    "avg_price": 1583.0,
-    "observations": 40
+    "avg_price": 1582.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-18",
     "min_price": 1461.0,
     "max_price": 2000.0,
-    "avg_price": 1605.0,
-    "observations": 40
+    "avg_price": 1604.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-19",
     "min_price": 1350.0,
     "max_price": 2000.0,
-    "avg_price": 1603.0,
-    "observations": 40
+    "avg_price": 1602.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-25",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1576.0,
-    "observations": 40
+    "avg_price": 1575.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-26",
     "min_price": 1350.0,
     "max_price": 2000.0,
-    "avg_price": 1655.0,
-    "observations": 40
+    "avg_price": 1652.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-02",
     "min_price": 1517.0,
     "max_price": 2000.0,
-    "avg_price": 1589.0,
-    "observations": 40
+    "avg_price": 1587.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-03",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1596.0,
-    "observations": 40
+    "avg_price": 1595.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-09",
     "min_price": 1462.0,
     "max_price": 2000.0,
-    "avg_price": 1627.0,
-    "observations": 40
+    "avg_price": 1626.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-10",
     "min_price": 1521.0,
     "max_price": 2000.0,
-    "avg_price": 1623.0,
-    "observations": 40
+    "avg_price": 1622.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-16",
     "min_price": 1487.0,
     "max_price": 2000.0,
-    "avg_price": 1603.0,
-    "observations": 40
+    "avg_price": 1602.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-17",
     "min_price": 1528.0,
     "max_price": 2000.0,
-    "avg_price": 1602.0,
-    "observations": 40
+    "avg_price": 1601.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-23",
     "min_price": 1333.0,
     "max_price": 2000.0,
-    "avg_price": 1575.0,
-    "observations": 40
+    "avg_price": 1574.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-24",
     "min_price": 1388.0,
     "max_price": 2000.0,
-    "avg_price": 1646.0,
-    "observations": 40
+    "avg_price": 1649.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-30",
     "min_price": 1520.0,
     "max_price": 2000.0,
-    "avg_price": 1637.0,
-    "observations": 40
+    "avg_price": 1635.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-31",
     "min_price": 1512.0,
     "max_price": 2000.0,
-    "avg_price": 1611.0,
-    "observations": 40
+    "avg_price": 1609.0,
+    "observations": 41
    }
   ],
   "ATL|LHR": [
@@ -6085,224 +6085,224 @@
     "min_price": 1000.0,
     "max_price": 2000.0,
     "avg_price": 1675.0,
-    "observations": 40
+    "observations": 41
    },
    {
     "travel_date": "2026-07-18",
     "min_price": 1123.0,
     "max_price": 2000.0,
-    "avg_price": 1539.0,
-    "observations": 40
+    "avg_price": 1538.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-24",
     "min_price": 1115.0,
     "max_price": 2000.0,
-    "avg_price": 1956.0,
-    "observations": 40
+    "avg_price": 1957.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-25",
     "min_price": 1123.0,
     "max_price": 2000.0,
-    "avg_price": 1527.0,
-    "observations": 40
+    "avg_price": 1526.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-31",
     "min_price": 1115.0,
     "max_price": 2000.0,
-    "avg_price": 1920.0,
-    "observations": 40
+    "avg_price": 1921.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-01",
     "min_price": 1105.0,
     "max_price": 2000.0,
-    "avg_price": 1538.0,
-    "observations": 40
+    "avg_price": 1537.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-07",
     "min_price": 1086.0,
     "max_price": 2000.0,
-    "avg_price": 1954.0,
-    "observations": 40
+    "avg_price": 1955.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-08",
     "min_price": 1103.0,
     "max_price": 2000.0,
-    "avg_price": 1955.0,
-    "observations": 40
+    "avg_price": 1956.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-14",
     "min_price": 960.0,
     "max_price": 2000.0,
-    "avg_price": 1948.0,
-    "observations": 40
+    "avg_price": 1949.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-15",
     "min_price": 891.0,
     "max_price": 2000.0,
-    "avg_price": 1945.0,
-    "observations": 40
+    "avg_price": 1946.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-21",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-22",
     "min_price": 891.0,
     "max_price": 2000.0,
-    "avg_price": 1947.0,
-    "observations": 40
+    "avg_price": 1949.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-28",
     "min_price": 769.0,
     "max_price": 2000.0,
-    "avg_price": 1938.0,
-    "observations": 40
+    "avg_price": 1940.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-29",
     "min_price": 929.0,
     "max_price": 2000.0,
-    "avg_price": 1948.0,
-    "observations": 40
+    "avg_price": 1949.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-04",
     "min_price": 635.0,
     "max_price": 2000.0,
-    "avg_price": 1932.0,
-    "observations": 40
+    "avg_price": 1933.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-05",
     "min_price": 635.0,
     "max_price": 2000.0,
-    "avg_price": 1908.0,
-    "observations": 40
+    "avg_price": 1910.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-11",
     "min_price": 974.0,
     "max_price": 2000.0,
-    "avg_price": 1949.0,
-    "observations": 40
+    "avg_price": 1950.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-12",
     "min_price": 829.0,
     "max_price": 2000.0,
-    "avg_price": 1946.0,
-    "observations": 40
+    "avg_price": 1947.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-18",
     "min_price": 974.0,
     "max_price": 2000.0,
-    "avg_price": 1949.0,
-    "observations": 40
+    "avg_price": 1950.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-19",
     "min_price": 829.0,
     "max_price": 2000.0,
-    "avg_price": 1941.0,
-    "observations": 40
+    "avg_price": 1943.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-25",
     "min_price": 842.0,
     "max_price": 2000.0,
-    "avg_price": 1942.0,
-    "observations": 40
+    "avg_price": 1944.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-26",
     "min_price": 829.0,
     "max_price": 2000.0,
-    "avg_price": 1946.0,
-    "observations": 40
+    "avg_price": 1947.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-02",
     "min_price": 974.0,
     "max_price": 2000.0,
-    "avg_price": 1949.0,
-    "observations": 40
+    "avg_price": 1950.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-03",
     "min_price": 832.0,
     "max_price": 2000.0,
-    "avg_price": 1942.0,
-    "observations": 40
+    "avg_price": 1943.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-09",
     "min_price": 974.0,
     "max_price": 2000.0,
-    "avg_price": 1949.0,
-    "observations": 40
+    "avg_price": 1950.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-10",
     "min_price": 974.0,
     "max_price": 2000.0,
-    "avg_price": 1949.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-16",
     "min_price": 899.0,
     "max_price": 2000.0,
-    "avg_price": 1945.0,
-    "observations": 40
+    "avg_price": 1946.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-17",
     "min_price": 773.0,
     "max_price": 2000.0,
-    "avg_price": 1939.0,
-    "observations": 40
+    "avg_price": 1940.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-23",
     "min_price": 789.0,
     "max_price": 2000.0,
-    "avg_price": 1939.0,
-    "observations": 40
+    "avg_price": 1941.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-24",
     "min_price": 759.0,
     "max_price": 2000.0,
-    "avg_price": 1938.0,
-    "observations": 40
+    "avg_price": 1939.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-30",
     "min_price": 759.0,
     "max_price": 2000.0,
-    "avg_price": 1938.0,
-    "observations": 40
+    "avg_price": 1939.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-31",
     "min_price": 635.0,
     "max_price": 2000.0,
-    "avg_price": 1723.0,
-    "observations": 40
+    "avg_price": 1724.0,
+    "observations": 41
    }
   ],
   "JFK|MXP": [
@@ -6310,225 +6310,225 @@
     "travel_date": "2026-07-17",
     "min_price": 717.0,
     "max_price": 2000.0,
-    "avg_price": 1936.0,
-    "observations": 40
+    "avg_price": 1937.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-18",
     "min_price": 748.0,
     "max_price": 2000.0,
-    "avg_price": 1937.0,
-    "observations": 40
+    "avg_price": 1939.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-24",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-25",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1939.0,
-    "observations": 40
+    "avg_price": 1940.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-07-31",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-01",
     "min_price": 713.0,
     "max_price": 2000.0,
-    "avg_price": 1943.0,
-    "observations": 40
+    "avg_price": 1944.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-07",
     "min_price": 767.0,
     "max_price": 2000.0,
-    "avg_price": 1944.0,
-    "observations": 40
+    "avg_price": 1946.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-08",
     "min_price": 713.0,
     "max_price": 2000.0,
-    "avg_price": 1943.0,
-    "observations": 40
+    "avg_price": 1944.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-14",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-15",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-21",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-22",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-28",
     "min_price": 676.0,
     "max_price": 2000.0,
-    "avg_price": 1918.0,
-    "observations": 40
+    "avg_price": 1920.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-08-29",
     "min_price": 686.0,
     "max_price": 2000.0,
-    "avg_price": 1942.0,
-    "observations": 40
+    "avg_price": 1944.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-04",
     "min_price": 540.0,
     "max_price": 2000.0,
-    "avg_price": 1939.0,
-    "observations": 40
+    "avg_price": 1940.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-05",
     "min_price": 616.0,
     "max_price": 2000.0,
-    "avg_price": 1940.0,
-    "observations": 40
+    "avg_price": 1942.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-11",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-12",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-18",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1974.0,
-    "observations": 39
+    "avg_price": 1975.0,
+    "observations": 40
    },
    {
     "travel_date": "2026-09-19",
     "min_price": 538.0,
     "max_price": 2000.0,
-    "avg_price": 1938.0,
-    "observations": 40
+    "avg_price": 1940.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-25",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-09-26",
     "min_price": 1000.0,
     "max_price": 2280.0,
-    "avg_price": 1957.0,
-    "observations": 40
+    "avg_price": 1958.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-02",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-03",
     "min_price": 1000.0,
     "max_price": 2000.0,
-    "avg_price": 1950.0,
-    "observations": 40
+    "avg_price": 1951.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-09",
     "min_price": 561.0,
     "max_price": 2000.0,
-    "avg_price": 1939.0,
-    "observations": 40
+    "avg_price": 1941.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-10",
     "min_price": 572.0,
     "max_price": 2000.0,
-    "avg_price": 1929.0,
-    "observations": 40
+    "avg_price": 1930.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-16",
     "min_price": 561.0,
     "max_price": 2000.0,
-    "avg_price": 1939.0,
-    "observations": 40
+    "avg_price": 1941.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-17",
     "min_price": 572.0,
     "max_price": 2000.0,
-    "avg_price": 1939.0,
-    "observations": 40
+    "avg_price": 1941.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-23",
     "min_price": 561.0,
     "max_price": 2000.0,
-    "avg_price": 1939.0,
-    "observations": 40
+    "avg_price": 1941.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-24",
     "min_price": 606.0,
     "max_price": 2000.0,
-    "avg_price": 1930.0,
-    "observations": 40
+    "avg_price": 1932.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-30",
     "min_price": 692.0,
     "max_price": 2000.0,
-    "avg_price": 1942.0,
-    "observations": 40
+    "avg_price": 1944.0,
+    "observations": 41
    },
    {
     "travel_date": "2026-10-31",
     "min_price": 578.0,
     "max_price": 2000.0,
-    "avg_price": 1929.0,
-    "observations": 40
+    "avg_price": 1931.0,
+    "observations": 41
    }
   ]
  }
