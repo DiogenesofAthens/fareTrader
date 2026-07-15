@@ -1,12 +1,20 @@
 {
- "generated_at": "2026-07-15T00:23:57.094663+00:00",
+ "generated_at": "2026-07-15T00:33:46.346417+00:00",
  "stats": {
   "routes_monitored": 4,
   "held_bookings": 0,
   "total_price_points": 0,
-  "total_triggers": 0,
-  "total_scans": 0,
-  "last_scan": null,
+  "total_triggers": 128,
+  "total_scans": 1,
+  "last_scan": {
+   "started_at": "2026-07-15T00:24:53.449216",
+   "routes_checked": 4,
+   "dates_checked": 128,
+   "trigger_count": 128,
+   "booking_count": 0,
+   "error_count": 96,
+   "dry_run": 1
+  },
   "dry_run_mode": true,
   "scan_interval_minutes": 120,
   "scan_running": false,
@@ -59,7 +67,19 @@
  },
  "bookings": [],
  "price_history": [],
- "scan_log": [],
+ "scan_log": [
+  {
+   "id": 53,
+   "started_at": "2026-07-15T00:24:53.449216",
+   "finished_at": "2026-07-15T00:33:46.344813",
+   "routes_checked": 4,
+   "dates_checked": 128,
+   "trigger_count": 128,
+   "booking_count": 0,
+   "error_count": 96,
+   "dry_run": 1
+  }
+ ],
  "price_summary": {
   "": [],
   "ATL|CDG": [],
