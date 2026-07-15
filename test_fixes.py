@@ -240,8 +240,14 @@ def test_price_history_recorded_past_booking_limit():
     original_routes = cfg.ROUTES
     cfg.ROUTES = [route]
 
-    # Two dates, both below threshold
-    fake_dates = ["2026-07-04", "2026-07-11"]
+    # Two dates, both below threshold. Must be in the future — run_scan
+    # filters past dates, so hardcoded dates rot (this test broke silently
+    # when the calendar passed them).
+    from datetime import timedelta
+    fake_dates = [
+        (date.today() + timedelta(days=7)).isoformat(),
+        (date.today() + timedelta(days=14)).isoformat(),
+    ]
 
     import scanner as sc
     import db as database
@@ -282,16 +288,79 @@ def test_price_history_recorded_past_booking_limit():
     cfg.MAX_NEW_BOOKINGS_PER_ROUTE_PER_SCAN = original_limit
 
     # Both dates should have prices recorded
-    assert "2026-07-04" in inserted_prices, "First date price not recorded"
-    assert "2026-07-11" in inserted_prices, f"Second date price not recorded after booking limit (got {inserted_prices})"
+    assert fake_dates[0] in inserted_prices, "First date price not recorded"
+    assert fake_dates[1] in inserted_prices, f"Second date price not recorded after booking limit (got {inserted_prices})"
 
     # Both dates should have triggered a notification
-    assert "2026-07-04" in trigger_notifications, "First date trigger notification missing"
-    assert "2026-07-11" in trigger_notifications, f"Second date trigger notification missing after booking limit (got {trigger_notifications})"
+    assert fake_dates[0] in trigger_notifications, "First date trigger notification missing"
+    assert fake_dates[1] in trigger_notifications, f"Second date trigger notification missing after booking limit (got {trigger_notifications})"
 
     # Only one actual booking should have been made (limit = 1)
     assert len(booking_calls) == 1, f"Expected 1 booking call, got {len(booking_calls)}: {booking_calls}"
-    assert booking_calls[0] == "2026-07-04", f"Wrong date booked: {booking_calls[0]}"
+    assert booking_calls[0] == fake_dates[0], f"Wrong date booked: {booking_calls[0]}"
+
+
+# ---------------------------------------------------------------------------
+# Google Flights tfs cabin encoding
+# ---------------------------------------------------------------------------
+
+def test_google_tfs_encodes_cabin_and_route():
+    """The tfs protobuf must carry route, date, and the right seat class."""
+    import base64
+
+    import scanner
+    importlib.reload(scanner)
+
+    tfs = scanner._google_tfs("ATL", "CDG", "2026-08-07", "delta_one")
+    raw = base64.urlsafe_b64decode(tfs + "=" * (-len(tfs) % 4))
+    assert b"ATL" in raw and b"CDG" in raw and b"2026-08-07" in raw
+
+    # seat field: key (9<<3)|0 = 0x48, value 3 (business) for delta_one
+    assert bytes([0x48, 3]) in raw
+    # first class encodes seat 4
+    raw_first = base64.urlsafe_b64decode(
+        (lambda t: t + "=" * (-len(t) % 4))(scanner._google_tfs("ATL", "CDG", "2026-08-07", "first"))
+    )
+    assert bytes([0x48, 4]) in raw_first
+
+    # The Google scraper must use the tfs URL, not the old q= form that
+    # ignores the cabin filter
+    with open("scanner.py") as f:
+        src = f.read()
+    assert "q=flights+from" not in src, "Old q= URL (ignores cabin filter) still present"
+    assert "tfs=" in src
+
+
+# ---------------------------------------------------------------------------
+# Post-scan quarantine
+# ---------------------------------------------------------------------------
+
+def test_quarantine_purges_implausible_scan():
+    """A scan where >90% of dates trigger must purge its price rows."""
+    import agent
+    importlib.reload(agent)
+
+    with open("agent.py") as f:
+        src = f.read()
+    assert "QUARANTINE_TRIGGER_RATE" in src, "Quarantine check missing from agent.py"
+    assert "delete_prices_since" in src, "Quarantine purge call missing from agent.py"
+
+    # db helper deletes rows at/after the timestamp
+    import tempfile, os as _os
+
+    import config
+    import db
+    importlib.reload(db)
+    with tempfile.TemporaryDirectory() as tmp:
+        old_path = config.DB_PATH
+        config.DB_PATH = _os.path.join(tmp, "t.db")
+        try:
+            db.init_db()
+            db.insert_price("ATL", "CDG", "delta_one", "2026-08-07", 2000.0, "google_flights")
+            deleted = db.delete_prices_since("2000-01-01T00:00:00")
+            assert deleted == 1, f"Expected 1 purged row, got {deleted}"
+        finally:
+            config.DB_PATH = old_path
 
 
 # ---------------------------------------------------------------------------
@@ -328,6 +397,8 @@ TESTS = [
     test_scan_summary_no_crash_without_pushover,
     test_agent_uses_continue_not_break,
     test_price_history_recorded_past_booking_limit,
+    test_google_tfs_encodes_cabin_and_route,
+    test_quarantine_purges_implausible_scan,
     test_build_date_list_only_fri_sat,
 ]
 

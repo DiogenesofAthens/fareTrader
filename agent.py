@@ -81,6 +81,7 @@ def run_scan() -> dict:
 
     _check_scanner_watchdog()
     scan_id = db.start_scan_log(dry_run)
+    scan_started_at = datetime.utcnow().isoformat()
 
     routes_checked  = 0
     dates_checked   = 0
@@ -219,6 +220,25 @@ def run_scan() -> dict:
                     context=f"Booking {route.origin}→{route.destination} {travel_date}",
                     error=result.error or "unknown error",
                 )
+
+    # ------------------------------------------------------------------
+    # Post-scan: quarantine implausible batches
+    #
+    # Real premium-cabin fares rarely sit below threshold across the
+    # board. If nearly every date "triggered", the scraper was almost
+    # certainly recording wrong-cabin prices (see the CI incident where
+    # 144/144 dates triggered on economy fares) — purge the batch so it
+    # never reaches the charts. Counts stay honest in scan_log so the
+    # health monitor can flag the broken sensor.
+    # ------------------------------------------------------------------
+    if dates_checked >= 10 and trigger_count / dates_checked > config.QUARANTINE_TRIGGER_RATE:
+        purged = db.delete_prices_since(scan_started_at)
+        log.error(
+            "QUARANTINE: %d/%d dates triggered (>%d%%) — purged %d price rows "
+            "recorded this scan as implausible (likely wrong-cabin scrape)",
+            trigger_count, dates_checked,
+            int(config.QUARANTINE_TRIGGER_RATE * 100), purged,
+        )
 
     # ------------------------------------------------------------------
     # Post-scan: check cancel deadlines

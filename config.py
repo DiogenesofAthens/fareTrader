@@ -55,6 +55,10 @@ SCANNER_WATCHDOG_HOURS: float = float(
     os.getenv("SCANNER_WATCHDOG_HOURS", str(round(SCAN_INTERVAL_MINUTES * 3 / 60, 1)))
 )
 
+# Quarantine: if more than this fraction of scanned dates trigger in one scan,
+# the batch is implausible (wrong-cabin scrape) and its price rows are purged.
+QUARANTINE_TRIGGER_RATE: float = float(os.getenv("QUARANTINE_TRIGGER_RATE", "0.9"))
+
 # Keep this many eCredits in reserve (USD) — don't book if balance would drop below
 MIN_ECREDIT_BUFFER_USD: float = float(os.getenv("MIN_ECREDIT_BUFFER_USD", "500.0"))
 

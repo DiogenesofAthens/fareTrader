@@ -174,6 +174,20 @@ def insert_price(
         )
 
 
+def delete_prices_since(iso_timestamp: str) -> int:
+    """Delete price rows recorded at/after the given UTC ISO timestamp.
+
+    Used by the post-scan quarantine: when nearly every date "triggers",
+    the scraper was recording wrong-cabin prices and the whole batch is
+    discarded rather than polluting the history.
+    """
+    with _conn() as con:
+        cur = con.execute(
+            "DELETE FROM price_history WHERE scanned_at >= ?", (iso_timestamp,)
+        )
+        return cur.rowcount
+
+
 # ---------------------------------------------------------------------------
 # Scan log
 # ---------------------------------------------------------------------------

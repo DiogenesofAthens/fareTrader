@@ -4,6 +4,7 @@ Returns structured Flight objects. Never raises — returns empty list on failur
 """
 from __future__ import annotations
 
+import base64
 import json
 import logging
 import re
@@ -106,6 +107,54 @@ def _cabin_code_google(cabin: str) -> str:
     return mapping.get(cabin, "c")
 
 
+# ---------------------------------------------------------------------------
+# Google Flights tfs parameter (protobuf)
+#
+# The q= natural-language URL ignores the &cabin= filter, so Google serves
+# default-cabin (economy) prices — which is how CI recorded $600 "Delta One"
+# fares. The search page's real filter state lives in the tfs query param:
+# a base64url-encoded protobuf. Verified empirically (ATL→CDG 2026-08-07):
+# seat=1 returned $428–$894, seat=3 returned $1,958–$9,234.
+# ---------------------------------------------------------------------------
+
+_TFS_SEAT = {"delta_one": 3, "business": 3, "first": 4}  # 1=eco 2=prem-eco 3=biz 4=first
+
+
+def _pb_varint(n: int) -> bytes:
+    out = b""
+    while True:
+        b7 = n & 0x7F
+        n >>= 7
+        out += bytes([b7 | (0x80 if n else 0)])
+        if not n:
+            return out
+
+
+def _pb_field(num: int, wire: int, payload: bytes) -> bytes:
+    key = _pb_varint((num << 3) | wire)
+    if wire == 2:  # length-delimited
+        return key + _pb_varint(len(payload)) + payload
+    return key + payload  # wire 0: payload is already varint-encoded
+
+
+def _google_tfs(origin: str, destination: str, travel_date: str, cabin: str) -> str:
+    """Build the tfs protobuf for a one-way, one-adult, cabin-filtered search."""
+    airport_from = _pb_field(2, 2, origin.encode())
+    airport_to = _pb_field(2, 2, destination.encode())
+    flight_data = (
+        _pb_field(2, 2, travel_date.encode())
+        + _pb_field(13, 2, airport_from)
+        + _pb_field(14, 2, airport_to)
+    )
+    info = (
+        _pb_field(3, 2, flight_data)                       # flight leg
+        + _pb_field(8, 0, _pb_varint(1))                   # passengers: 1 adult
+        + _pb_field(9, 0, _pb_varint(_TFS_SEAT.get(cabin, 3)))  # seat class
+        + _pb_field(19, 0, _pb_varint(2))                  # trip: one-way
+    )
+    return base64.urlsafe_b64encode(info).decode().rstrip("=")
+
+
 # Cheapest believable fare per cabin. Google/Kayak sometimes ignore the cabin
 # filter and surface default-cabin (economy) prices — e.g. $540–$1,794 for
 # transatlantic "Delta One" observed from CI. Anything below the floor is
@@ -184,13 +233,11 @@ def _scrape_google_flights(
     cabin: str,
     travel_date: str,
 ) -> Optional[Flight]:
-    cabin_code = _cabin_code_google(cabin)
     date_obj = date.fromisoformat(travel_date)
     date_str = date_obj.strftime("%Y-%m-%d")
     url = (
-        f"https://www.google.com/travel/flights?"
-        f"q=flights+from+{origin}+to+{destination}+on+{date_str}"
-        f"&cabin={cabin_code}&curr=USD&hl=en"
+        f"https://www.google.com/travel/flights/search?"
+        f"tfs={_google_tfs(origin, destination, date_str, cabin)}&hl=en&curr=USD"
     )
     try:
         resp = session.get(url, timeout=20)
