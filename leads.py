@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import urllib.error
 import urllib.request
 
 NOTIFY_EMAIL = "kwessman@gmail.com"
@@ -48,9 +49,16 @@ def send_lead(email: str, note: str = "") -> None:
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
+            # Cloudflare bans urllib's default Python-urllib/3.x agent
+            # in front of api.resend.com (error 1010)
+            "User-Agent": "faretrader-leads/1.0",
         },
         method="POST",
     )
-    with urllib.request.urlopen(req, timeout=10) as resp:
-        if resp.status >= 300:
-            raise RuntimeError(f"Resend returned {resp.status}")
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            if resp.status >= 300:
+                raise RuntimeError(f"Resend returned {resp.status}")
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")[:500]
+        raise RuntimeError(f"Resend {exc.code}: {body}") from exc
