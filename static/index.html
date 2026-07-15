@@ -378,7 +378,11 @@
         const r = await fetch('/data.json');
         if (r.ok) {
           const snap = await r.json();
-          if (snap && snap.stats) SNAPSHOT = snap;
+          // An empty snapshot (fresh DB, or every scan quarantined) would
+          // render blank charts — prefer demo data until real scans land.
+          const hasData = snap && snap.stats &&
+            (snap.stats.total_price_points > 0 || (snap.bookings || []).length > 0);
+          if (hasData) SNAPSHOT = snap;
         }
       } catch { /* fall through to demo mode */ }
       if (SNAPSHOT) showSnapshotBanner(SNAPSHOT);
