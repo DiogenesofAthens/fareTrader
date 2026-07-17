@@ -1,13 +1,13 @@
 {
- "generated_at": "2026-07-17T08:33:48.828340+00:00",
+ "generated_at": "2026-07-17T14:08:22.524415+00:00",
  "stats": {
   "routes_monitored": 4,
   "held_bookings": 0,
   "total_price_points": 0,
-  "total_triggers": 1408,
-  "total_scans": 11,
+  "total_triggers": 1536,
+  "total_scans": 12,
   "last_scan": {
-   "started_at": "2026-07-17T08:26:28.810790",
+   "started_at": "2026-07-17T14:00:58.283399",
    "routes_checked": 4,
    "dates_checked": 128,
    "trigger_count": 128,
@@ -68,6 +68,17 @@
  "bookings": [],
  "price_history": [],
  "scan_log": [
+  {
+   "id": 64,
+   "started_at": "2026-07-17T14:00:58.283399",
+   "finished_at": "2026-07-17T14:08:22.522688",
+   "routes_checked": 4,
+   "dates_checked": 128,
+   "trigger_count": 128,
+   "booking_count": 0,
+   "error_count": 96,
+   "dry_run": 1
+  },
   {
    "id": 63,
    "started_at": "2026-07-17T08:26:28.810790",
