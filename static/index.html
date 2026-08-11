@@ -100,7 +100,7 @@
                 </tr>
               </thead>
               <tbody id="route-config-body">
-                <tr><td colspan="4" class="py-4 text-center text-slate-400 text-xs">Loading&hellip;</td></tr>
+                <tr><td colspan="4" class="py-4 text-center text-slate-400 text-xs">Scheduled scanner configuration appears after the first report.</td></tr>
               </tbody>
             </table>
             <p class="mt-3 text-xs text-slate-400" id="date-window-info"></p>
@@ -118,7 +118,7 @@
             <div id="scan-result-card" class="hidden rounded-lg border p-4 text-sm"></div>
 
             <div class="text-xs text-slate-400 space-y-1">
-              <p>Last scan: <span id="last-scan-time" class="text-slate-600">—</span></p>
+              <p>Last scan: <span id="last-scan-time" class="text-slate-600">Awaiting first scheduled scan</span></p>
               <p>Auto-scan interval: <span id="scan-interval" class="text-slate-600">—</span> min</p>
               <p>eCredit buffer: <span id="ecredit-buffer" class="text-slate-600">—</span></p>
             </div>
@@ -156,7 +156,7 @@
               </tr>
             </thead>
             <tbody id="bookings-body">
-              <tr><td colspan="10" class="py-12 text-center text-slate-400">Loading&hellip;</td></tr>
+              <tr><td colspan="10" class="py-12 text-center text-slate-400">Scanner runs every 6 hours via GitHub Actions — awaiting booking history.</td></tr>
             </tbody>
           </table>
         </div>
@@ -178,7 +178,7 @@
         <div class="relative mb-6" style="min-height:220px">
           <canvas id="price-chart"></canvas>
           <div id="price-empty" class="hidden absolute inset-0 flex items-center justify-center text-slate-400 text-sm">
-            No upcoming price data for this route. Run a scan to populate.
+            Scanner runs every 6 hours via GitHub Actions — awaiting fare history for this route.
           </div>
         </div>
 
@@ -186,7 +186,7 @@
         <div class="relative mb-6" style="min-height:180px">
           <canvas id="trend-chart"></canvas>
           <div id="trend-empty" class="hidden absolute inset-0 flex items-center justify-center text-slate-400 text-sm">
-            Not enough scan history yet — the trend appears after a few scans.
+            Awaiting enough scheduled scans to show a fare trend.
           </div>
         </div>
 
@@ -204,7 +204,7 @@
               </tr>
             </thead>
             <tbody id="price-history-body">
-              <tr><td colspan="6" class="py-8 text-center text-slate-400">Select a route above</td></tr>
+              <tr><td colspan="6" class="py-8 text-center text-slate-400">Choose a monitored route to view scan observations.</td></tr>
             </tbody>
           </table>
         </div>
@@ -229,7 +229,7 @@
               </tr>
             </thead>
             <tbody id="scan-log-body">
-              <tr><td colspan="7" class="py-12 text-center text-slate-400">Loading&hellip;</td></tr>
+              <tr><td colspan="7" class="py-12 text-center text-slate-400">Scanner runs every 6 hours via GitHub Actions — awaiting scan history.</td></tr>
             </tbody>
           </table>
         </div>
@@ -543,7 +543,7 @@
       // Scan control info
       const lastScan = s.last_scan;
       document.getElementById('last-scan-time').textContent =
-        lastScan ? fmt.datetime(lastScan.started_at) : 'Never';
+        lastScan ? fmt.datetime(lastScan.started_at) : 'Awaiting first scheduled scan';
       document.getElementById('scan-interval').textContent = s.scan_interval_minutes;
 
       renderScanBtn();
@@ -762,7 +762,7 @@
       const tbody = document.getElementById('bookings-body');
       const rows = state.bookings;
       if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="10" class="py-12 text-center text-slate-400">No bookings found</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" class="py-12 text-center text-slate-400">No bookings yet — qualifying fares appear here after a scheduled scan.</td></tr>`;
         return;
       }
       tbody.innerHTML = rows.map(b => {
@@ -999,7 +999,7 @@
     function renderPriceTable(rows) {
       const tbody = document.getElementById('price-history-body');
       if (!rows.length) {
-        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">No observations yet — run a scan first</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">No observations yet — the scanner runs every 6 hours via GitHub Actions.</td></tr>`;
         return;
       }
       tbody.innerHTML = rows.map(r => `
@@ -1024,7 +1024,7 @@
     function renderScanLog() {
       const tbody = document.getElementById('scan-log-body');
       if (!state.scanLog.length) {
-        tbody.innerHTML = `<tr><td colspan="7" class="py-12 text-center text-slate-400">No scans recorded yet</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="py-12 text-center text-slate-400">Scanner runs every 6 hours via GitHub Actions — awaiting scan history.</td></tr>`;
         return;
       }
       tbody.innerHTML = state.scanLog.map(r => {
