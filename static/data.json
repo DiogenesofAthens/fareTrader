@@ -1,18 +1,18 @@
 {
- "generated_at": "2026-10-16T21:04:33.639971+00:00",
+ "generated_at": "2026-10-17T04:21:25.712920+00:00",
  "stats": {
   "routes_monitored": 4,
   "held_bookings": 0,
   "total_price_points": 72,
-  "total_triggers": 26642,
-  "total_scans": 350,
+  "total_triggers": 26662,
+  "total_scans": 351,
   "last_scan": {
-   "started_at": "2026-10-16T21:03:00.106995",
+   "started_at": "2026-10-17T04:20:16.869394",
    "routes_checked": 4,
-   "dates_checked": 24,
-   "trigger_count": 23,
+   "dates_checked": 20,
+   "trigger_count": 20,
    "booking_count": 0,
-   "error_count": 17,
+   "error_count": 15,
    "dry_run": 1
   },
   "dry_run_mode": true,
@@ -790,6 +790,17 @@
  ],
  "scan_log": [
   {
+   "id": 403,
+   "started_at": "2026-10-17T04:20:16.869394",
+   "finished_at": "2026-10-17T04:21:25.710868",
+   "routes_checked": 4,
+   "dates_checked": 20,
+   "trigger_count": 20,
+   "booking_count": 0,
+   "error_count": 15,
+   "dry_run": 1
+  },
+  {
    "id": 402,
    "started_at": "2026-10-16T21:03:00.106995",
    "finished_at": "2026-10-16T21:04:33.638169",
@@ -1107,28 +1118,10 @@
    "booking_count": 0,
    "error_count": 24,
    "dry_run": 1
-  },
-  {
-   "id": 373,
-   "started_at": "2026-10-07T23:02:51.406990",
-   "finished_at": "2026-10-07T23:04:44.366284",
-   "routes_checked": 4,
-   "dates_checked": 32,
-   "trigger_count": 32,
-   "booking_count": 0,
-   "error_count": 24,
-   "dry_run": 1
   }
  ],
  "price_summary": {
   "": [
-   {
-    "travel_date": "2026-10-16",
-    "min_price": 2000.0,
-    "max_price": 6613.0,
-    "avg_price": 3206.0,
-    "observations": 12
-   },
    {
     "travel_date": "2026-10-17",
     "min_price": 2000.0,
@@ -1167,13 +1160,6 @@
   ],
   "ATL|CDG": [
    {
-    "travel_date": "2026-10-16",
-    "min_price": 2529.0,
-    "max_price": 2529.0,
-    "avg_price": 2529.0,
-    "observations": 3
-   },
-   {
     "travel_date": "2026-10-17",
     "min_price": 2000.0,
     "max_price": 2479.0,
@@ -1210,13 +1196,6 @@
    }
   ],
   "ATL|NRT": [
-   {
-    "travel_date": "2026-10-16",
-    "min_price": 4276.0,
-    "max_price": 6613.0,
-    "avg_price": 5096.0,
-    "observations": 3
-   },
    {
     "travel_date": "2026-10-17",
     "min_price": 2000.0,
@@ -1255,13 +1234,6 @@
   ],
   "ATL|LHR": [
    {
-    "travel_date": "2026-10-16",
-    "min_price": 2000.0,
-    "max_price": 3798.0,
-    "avg_price": 3199.0,
-    "observations": 3
-   },
-   {
     "travel_date": "2026-10-17",
     "min_price": 6240.0,
     "max_price": 7810.0,
@@ -1298,13 +1270,6 @@
    }
   ],
   "JFK|MXP": [
-   {
-    "travel_date": "2026-10-16",
-    "min_price": 2000.0,
-    "max_price": 2000.0,
-    "avg_price": 2000.0,
-    "observations": 3
-   },
    {
     "travel_date": "2026-10-17",
     "min_price": 2000.0,
