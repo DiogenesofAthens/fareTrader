@@ -5,7 +5,6 @@ Returns structured Flight objects. Never raises — returns empty list on failur
 from __future__ import annotations
 
 import base64
-import json
 import logging
 import re
 import time
@@ -86,15 +85,17 @@ def _session() -> requests.Session:
 # Google Flights scraper
 # ---------------------------------------------------------------------------
 
-# Google Flights embeds flight data as JSON inside the page HTML.
-# The pattern below targets the AF_initDataCallback blocks that carry pricing.
-_GF_JSON_PATTERN = re.compile(
-    r"AF_initDataCallback\(\{[^}]*?data:([\s\S]*?)\}\s*\);",
-    re.MULTILINE,
-)
-
-# Price pattern for fallback plain-text extraction
-_PRICE_PATTERN = re.compile(r"\$\s*(\d[\d,]+)")
+# Google Flights renders one aria-label per itinerary, e.g.
+#   "From 9334 US dollars. Nonstop flight with Delta. Leaves ..."
+# The label names the carriers and, for mixed-cabin itineraries, the cabins
+# ("Premium Economy + Business Class Layover ..."). It is the only place on the
+# page that ties a price to an airline and cabin, so it is the only source we
+# trust. Bare numbers in the AF_initDataCallback JSON and "$" amounts in the
+# HTML can't be attributed and were recording other airlines' fares.
+_GF_ITINERARY_PATTERN = re.compile(r'aria-label="From (\d+) US dollars\. ([^"]*)"')
+_GF_CARRIER_PATTERN = re.compile(r"flight with ([^.]+)\.")
+_GF_OPERATED_BY_PATTERN = re.compile(r"Operated by ([^.]+)\.")
+_GF_MIXED_CABIN_PATTERN = re.compile(r"\b(?:Economy|Business(?: Class)?|First(?: Class)?)\s*\+")
 
 
 def _cabin_code_google(cabin: str) -> str:
@@ -115,6 +116,13 @@ def _cabin_code_google(cabin: str) -> str:
 # fares. The search page's real filter state lives in the tfs query param:
 # a base64url-encoded protobuf. Verified empirically (ATL→CDG 2026-08-07):
 # seat=1 returned $428–$894, seat=3 returned $1,958–$9,234.
+#
+# The seat filter alone still returns every airline's business fares, and
+# mixed-cabin itineraries on top. From Aug to Oct 2026 nearly every scan
+# triggered on fares like a $3,868 JetBlue "Premium Economy + Business"
+# routing while Delta's own ATL→CDG nonstop was $9,334. The leg's airlines
+# field (6) restricts results to DL-marketed flights. Verified empirically
+# (ATL→CDG 2026-10-30): only Delta and Air France codeshares came back.
 # ---------------------------------------------------------------------------
 
 _TFS_SEAT = {"delta_one": 3, "business": 3, "first": 4}  # 1=eco 2=prem-eco 3=biz 4=first
@@ -138,11 +146,12 @@ def _pb_field(num: int, wire: int, payload: bytes) -> bytes:
 
 
 def _google_tfs(origin: str, destination: str, travel_date: str, cabin: str) -> str:
-    """Build the tfs protobuf for a one-way, one-adult, cabin-filtered search."""
+    """Build the tfs protobuf for a one-way, one-adult, Delta-only, cabin-filtered search."""
     airport_from = _pb_field(2, 2, origin.encode())
     airport_to = _pb_field(2, 2, destination.encode())
     flight_data = (
         _pb_field(2, 2, travel_date.encode())
+        + _pb_field(6, 2, b"DL")                           # airlines: Delta only
         + _pb_field(13, 2, airport_from)
         + _pb_field(14, 2, airport_to)
     )
@@ -167,39 +176,29 @@ def _min_plausible(cabin: str) -> float:
     return _MIN_PLAUSIBLE_BY_CABIN.get(cabin, 500.0)
 
 
+def _is_delta_single_cabin(label: str) -> bool:
+    """True if an itinerary label is Delta-marketed, Delta-operated and one cabin throughout."""
+    carrier = _GF_CARRIER_PATTERN.search(label)
+    if not carrier or carrier.group(1).strip() != "Delta":
+        return False
+    operated_by = _GF_OPERATED_BY_PATTERN.search(label)
+    if operated_by and "Delta" not in operated_by.group(1):
+        return False
+    return not _GF_MIXED_CABIN_PATTERN.search(label)
+
+
 def _parse_google_price(html: str, origin: str, destination: str, cabin: str, travel_date: str) -> Optional[Flight]:
     """
-    Parse a price from Google Flights HTML. Google embeds structured data
-    in AF_initDataCallback JSON blobs; we do a best-effort extraction.
-    Falls back to the cheapest price found via regex in the HTML.
+    Parse the cheapest Delta fare in our cabin from Google Flights HTML.
+    Only itineraries whose label says Delta, operated by Delta, with no
+    mixed-cabin segments count. Returns None rather than guess.
     """
-    # Attempt structured JSON extraction first
-    for match in _GF_JSON_PATTERN.finditer(html):
-        raw = match.group(1)
-        try:
-            data = json.loads(raw)
-            # Walk the nested list structure looking for numeric prices
-            prices: list[float] = []
-            _collect_prices(data, prices)
-            prices = [p for p in prices if p >= _min_plausible(cabin)]
-            if prices:
-                price = min(prices)
-                if price <= 20_000:
-                    return Flight(
-                        origin=origin,
-                        destination=destination,
-                        cabin=cabin,
-                        travel_date=travel_date,
-                        price_usd=price,
-                        source="google_flights",
-                    )
-        except (json.JSONDecodeError, TypeError, ValueError):
-            continue
-
-    # Fallback: regex scan for dollar amounts in the HTML
-    prices_found = [float(m.group(1).replace(",", "")) for m in _PRICE_PATTERN.finditer(html)]
-    # Filter to plausible premium-cabin range
-    plausible = [p for p in prices_found if _min_plausible(cabin) <= p <= 20_000]
+    prices = [
+        float(m.group(1))
+        for m in _GF_ITINERARY_PATTERN.finditer(html)
+        if _is_delta_single_cabin(m.group(2))
+    ]
+    plausible = [p for p in prices if _min_plausible(cabin) <= p <= 20_000]
     if plausible:
         return Flight(
             origin=origin,
@@ -210,20 +209,6 @@ def _parse_google_price(html: str, origin: str, destination: str, cabin: str, tr
             source="google_flights",
         )
     return None
-
-
-def _collect_prices(obj: object, acc: list[float], depth: int = 0) -> None:
-    """Recursively walk nested lists/dicts collecting integer-like price values."""
-    if depth > 12:
-        return
-    if isinstance(obj, (int, float)) and 100 <= obj <= 50_000:
-        acc.append(float(obj))
-    elif isinstance(obj, list):
-        for item in obj:
-            _collect_prices(item, acc, depth + 1)
-    elif isinstance(obj, dict):
-        for v in obj.values():
-            _collect_prices(v, acc, depth + 1)
 
 
 def _scrape_google_flights(
@@ -275,11 +260,12 @@ def _scrape_kayak(
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "html.parser")
 
-        # Kayak embeds prices in elements with data-price or specific class names.
-        # Class names change; we look for the pattern in multiple ways.
+        # Kayak renders results client-side, so the HTML we fetch usually has
+        # no fares at all. Only data-price attributes on result elements count.
+        # The old JSON-walk and "$" regex fallbacks picked up page constants
+        # (a flat $2,000 on most dates in Oct 2026), so they were removed.
         price: Optional[float] = None
 
-        # Method 1: data-price attributes
         for tag in soup.find_all(attrs={"data-price": True}):
             try:
                 val = float(str(tag["data-price"]).replace(",", ""))
@@ -287,26 +273,6 @@ def _scrape_kayak(
                     price = val if price is None else min(price, val)
             except (ValueError, TypeError):
                 pass
-
-        # Method 2: JSON blobs in <script> tags
-        for script in soup.find_all("script", type="application/json"):
-            try:
-                data = json.loads(script.string or "")
-                candidates: list[float] = []
-                _collect_prices(data, candidates)
-                plausible = [p for p in candidates if _min_plausible(cabin) <= p <= 25_000]
-                if plausible:
-                    best = min(plausible)
-                    price = best if price is None else min(price, best)
-            except (json.JSONDecodeError, TypeError):
-                pass
-
-        # Method 3: dollar regex fallback
-        if price is None:
-            matches = [float(m.group(1).replace(",", "")) for m in _PRICE_PATTERN.finditer(resp.text)]
-            plausible = [p for p in matches if _min_plausible(cabin) <= p <= 25_000]
-            if plausible:
-                price = min(plausible)
 
         if price:
             log.debug("Kayak: %s→%s %s $%.0f", origin, destination, travel_date, price)

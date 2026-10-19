@@ -59,7 +59,7 @@ After all routes, `agent._check_cancel_deadlines()` fires `notify.cancel_deadlin
 
 **Booking flow** (`booker._run_booking_flow()`): 10 steps — login → search (with passenger count if `seats > 1`) → cabin filter → select first result → skip seat selection → skip passenger info → apply eCredits → **check remaining eCredit balance ≥ `MIN_ECREDIT_BUFFER_USD`** → purchase → capture PNR. `DRY_RUN=True` stops before the purchase click and returns a fake PNR.
 
-**Price scraping** (`scanner.get_price()`): Google Flights first (extracts prices from `AF_initDataCallback` JSON blobs, valid range `$500–$20,000`; regex fallback `$500–$20,000`), then Kayak fallback (data-price attributes → JSON blobs → regex, valid range `$500–$25,000`). Applies `REQUEST_DELAY_SECONDS = 3.0` after every request.
+**Price scraping** (`scanner.get_price()`): Google Flights first, then Kayak as a fallback. Google's URL is a `tfs` protobuf carrying the cabin (seat field 9) and a Delta-only airline filter (leg field 6 = `DL`). The parser reads only the per-itinerary `aria-label`s ("From 9334 US dollars. Nonstop flight with Delta. …") and keeps Delta-marketed, Delta-operated, single-cabin itineraries between the cabin floor (`_min_plausible`) and `$20,000`. Kayak counts only `data-price` attributes (`$25,000` cap); its HTML is client-rendered, so it rarely returns anything. Unattributable numbers (JSON blobs, `$` amounts) are never used: in Aug–Oct 2026 they recorded other airlines' and mixed-cabin fares and tripped the quarantine on nearly every scan. Applies `REQUEST_DELAY_SECONDS = 3.0` after every request.
 
 **Dates scanned:** Only Fridays and Saturdays within each `DateWindow` in `config.py`.
 
@@ -88,7 +88,7 @@ export SCREENSHOT_DIR="."            # where error_*.png files land
 delta.com and Google Flights change their HTML periodically. Broken selectors are almost always the cause when bookings or price lookups start failing.
 
 - **Booking selectors:** All live in the `_Sel` class in `booker.py` (~line 40). Every form field, button, and confirmation element is a class attribute there.
-- **Price scraping selectors:** `_scrape_google_flights()` and `_scrape_kayak()` in `scanner.py`. The regex `_GF_JSON_PATTERN` and the Kayak CSS selectors are the first things to check.
+- **Price scraping selectors:** `_scrape_google_flights()` and `_scrape_kayak()` in `scanner.py`. The `_GF_*_PATTERN` label regexes and the Kayak `data-price` lookup are the first things to check. A route that suddenly returns no price usually means Google changed the label wording, which is safer than the old failure mode of recording a wrong fare.
 - **Error screenshots** are saved to `SCREENSHOT_DIR` (default: project root) as `error_<label>_<timestamp>.png` on any Playwright failure. Always check these first.
 
 ### Debugging workflow

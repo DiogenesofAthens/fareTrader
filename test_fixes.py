@@ -145,49 +145,59 @@ def test_google_json_price_bounds():
     assert scanner._min_plausible("unknown_cabin") == 500.0
 
     # A $900 fare labeled delta_one is economy noise — reject
-    data_json = json.dumps([[900]])
-    fake_html = f'AF_initDataCallback({{key: "x", data: {data_json} }});'
+    fake_html = _gf_label(900, "Nonstop flight with Delta.")
     assert scanner._parse_google_price(fake_html, "ATL", "CDG", "delta_one", "2026-07-04") is None
 
 
-def test_collect_prices_range():
+def _gf_label(price: int, rest: str) -> str:
+    """One Google Flights itinerary element, as the page renders it."""
+    return f'<li aria-label="From {price} US dollars. {rest} Leaves Atlanta at 4:45 PM."></li>'
+
+
+def test_google_flights_rejects_low_price():
+    """_parse_google_price should reject a Delta fare of 200 (below the cabin floor)."""
     import scanner
     importlib.reload(scanner)
 
-    prices: list[float] = []
-    scanner._collect_prices([50, 99, 100, 500, 19_999, 20_000, 50_000, 50_001], prices)
-    assert 500.0 in prices
-    assert 100.0 in prices  # _collect_prices lower bound is 100
-    assert 99.0 not in prices
-    assert 50_001.0 not in prices
-
-
-def test_google_flights_json_path_rejects_low_price():
-    """_parse_google_price should reject a price of 200 (below 500 threshold)."""
-    import scanner
-    importlib.reload(scanner)
-    import json, re
-
-    # Craft a fake AF_initDataCallback block that embeds a price of 200
-    price_val = 200
-    data_json = json.dumps([[price_val]])
-    fake_html = f'AF_initDataCallback({{key: "x", data: {data_json} }});'
+    fake_html = _gf_label(200, "Nonstop flight with Delta.")
     result = scanner._parse_google_price(fake_html, "ATL", "CDG", "delta_one", "2026-07-04")
-    assert result is None, f"Expected None for sub-500 price, got {result}"
+    assert result is None, f"Expected None for sub-floor price, got {result}"
 
 
-def test_google_flights_json_path_accepts_valid_price():
-    """_parse_google_price should accept a price of 3000."""
+def test_google_flights_accepts_valid_delta_price():
+    """_parse_google_price should accept a Delta nonstop at 3000."""
     import scanner
     importlib.reload(scanner)
-    import json
 
-    price_val = 3000
-    data_json = json.dumps([[price_val]])
-    fake_html = f'AF_initDataCallback({{key: "x", data: {data_json} }});'
+    fake_html = _gf_label(3000, "Nonstop flight with Delta.")
     result = scanner._parse_google_price(fake_html, "ATL", "CDG", "delta_one", "2026-07-04")
     assert result is not None, "Expected a Flight for valid price 3000"
     assert result.price_usd == 3000.0
+
+
+def test_google_flights_counts_only_delta_single_cabin():
+    """Other airlines, codeshares operated by others, mixed-cabin itineraries
+    and unattributed numbers must not set the price (the Aug–Oct 2026 bug:
+    a $3,868 JetBlue mixed-cabin fare recorded as Delta One)."""
+    import scanner
+    importlib.reload(scanner)
+
+    fake_html = "".join([
+        _gf_label(3868, "1 stop flight with JetBlue. Premium Economy + Business Class Layover (1 of 1)."),
+        _gf_label(1206, "2 stops flight with Delta. Business Class + Economy Layover (1 of 2)."),
+        _gf_label(2500, "Nonstop flight with Air France."),
+        _gf_label(2600, "Nonstop flight with Delta. Operated by Air France."),
+        _gf_label(2700, "1 stop flight with Delta and KLM."),
+        'AF_initDataCallback({key: "x", data: [[1999]] }); <span>$1,800</span>',
+        _gf_label(9334, "Nonstop flight with Delta."),
+        _gf_label(13957, "Nonstop flight with Delta."),
+    ])
+    result = scanner._parse_google_price(fake_html, "ATL", "CDG", "delta_one", "2026-10-30")
+    assert result is not None and result.price_usd == 9334.0, f"Expected Delta's $9,334, got {result}"
+
+    # Nothing attributable to Delta → no price, not a guess
+    other_only = _gf_label(3868, "1 stop flight with JetBlue.")
+    assert scanner._parse_google_price(other_only, "ATL", "CDG", "delta_one", "2026-10-30") is None
 
 
 # ---------------------------------------------------------------------------
@@ -305,7 +315,7 @@ def test_price_history_recorded_past_booking_limit():
 # ---------------------------------------------------------------------------
 
 def test_google_tfs_encodes_cabin_and_route():
-    """The tfs protobuf must carry route, date, and the right seat class."""
+    """The tfs protobuf must carry route, date, Delta-only, and the right seat class."""
     import base64
 
     import scanner
@@ -322,6 +332,9 @@ def test_google_tfs_encodes_cabin_and_route():
         (lambda t: t + "=" * (-len(t) % 4))(scanner._google_tfs("ATL", "CDG", "2026-08-07", "first"))
     )
     assert bytes([0x48, 4]) in raw_first
+
+    # airlines field on the leg: key (6<<3)|2 = 0x32, len 2, "DL"
+    assert bytes([0x32, 2]) + b"DL" in raw
 
     # The Google scraper must use the tfs URL, not the old q= form that
     # ignores the cabin filter
@@ -390,9 +403,9 @@ TESTS = [
     test_no_redundant_datetime_import,
     test_cancel_by_parsing_uses_module_datetime,
     test_google_json_price_bounds,
-    test_collect_prices_range,
-    test_google_flights_json_path_rejects_low_price,
-    test_google_flights_json_path_accepts_valid_price,
+    test_google_flights_rejects_low_price,
+    test_google_flights_accepts_valid_delta_price,
+    test_google_flights_counts_only_delta_single_cabin,
     test_scan_summary_odd_condition_removed,
     test_scan_summary_no_crash_without_pushover,
     test_agent_uses_continue_not_break,
