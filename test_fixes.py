@@ -250,6 +250,11 @@ def test_price_history_recorded_past_booking_limit():
     original_routes = cfg.ROUTES
     cfg.ROUTES = [route]
 
+    # The booker is only reached when a Delta login is configured (placeholders;
+    # book_flight is mocked below).
+    original_creds = (cfg.DELTA_USERNAME, cfg.DELTA_PASSWORD)
+    cfg.DELTA_USERNAME, cfg.DELTA_PASSWORD = "placeholder-user", "placeholder-pass"
+
     # Two dates, both below threshold. Must be in the future — run_scan
     # filters past dates, so hardcoded dates rot (this test broke silently
     # when the calendar passed them).
@@ -296,6 +301,7 @@ def test_price_history_recorded_past_booking_limit():
 
     cfg.ROUTES = original_routes
     cfg.MAX_NEW_BOOKINGS_PER_ROUTE_PER_SCAN = original_limit
+    cfg.DELTA_USERNAME, cfg.DELTA_PASSWORD = original_creds
 
     # Both dates should have prices recorded
     assert fake_dates[0] in inserted_prices, "First date price not recorded"
@@ -513,6 +519,96 @@ def test_snapshot_omits_unconfigured_routes():
 
 
 # ---------------------------------------------------------------------------
+# No Delta login (CI): skip the booking attempt instead of logging an error
+# ---------------------------------------------------------------------------
+
+def _scan_with_credentials(username: str, password: str, booker_result=None) -> dict:
+    """Run agent.run_scan() over two below-threshold dates on one auto-book
+    route with all I/O mocked. Returns what each mock saw."""
+    from datetime import timedelta
+
+    import agent
+    import booker as bkr
+    import config as cfg
+    import db as database
+    import notify as ntfy
+    import scanner as sc
+
+    seen = {"prices": [], "triggers": [], "book_calls": [], "errors": [], "finish": {}}
+    dates = [(date.today() + timedelta(days=d)).isoformat() for d in (20, 21)]
+    flight = lambda origin, destination, cabin, travel_date: sc.Flight(
+        origin=origin, destination=destination, cabin=cabin,
+        travel_date=travel_date, price_usd=1000.0, source="google_flights",
+    )
+
+    def book(**kw):
+        seen["book_calls"].append(kw["travel_date"])
+        return booker_result
+
+    saved = (cfg.ROUTES, cfg.DELTA_USERNAME, cfg.DELTA_PASSWORD)
+    cfg.ROUTES = [cfg.Route("ATL", "CDG", "delta_one", max_price=9999.0, auto_book=True)]
+    cfg.DELTA_USERNAME, cfg.DELTA_PASSWORD = username, password
+    try:
+        with patch.object(sc, "get_price", side_effect=flight), \
+             patch.object(sc, "build_date_list", return_value=dates), \
+             patch.object(database, "start_scan_log", return_value=1), \
+             patch.object(database, "finish_scan_log", side_effect=lambda **kw: seen["finish"].update(kw)), \
+             patch.object(database, "get_bookings_approaching_deadline", return_value=[]), \
+             patch.object(database, "get_hours_since_last_price", return_value=None), \
+             patch.object(database, "insert_price", side_effect=lambda **kw: seen["prices"].append(kw["travel_date"])), \
+             patch.object(database, "is_already_booked", return_value=False) as already_booked, \
+             patch.object(database, "insert_booking"), \
+             patch.object(ntfy, "price_trigger_found", side_effect=lambda **kw: seen["triggers"].append(kw["travel_date"])), \
+             patch.object(ntfy, "booking_confirmed"), \
+             patch.object(ntfy, "error_alert", side_effect=lambda **kw: seen["errors"].append(kw)), \
+             patch.object(ntfy, "scan_summary"), \
+             patch.object(bkr, "book_flight", side_effect=book):
+            seen["summary"] = agent.run_scan()
+            seen["already_booked_checks"] = already_booked.call_count
+    finally:
+        cfg.ROUTES, cfg.DELTA_USERNAME, cfg.DELTA_PASSWORD = saved
+    seen["dates"] = dates
+    return seen
+
+
+def test_no_credentials_skips_booking_without_error():
+    """CI has no Delta login: record the price and fire the trigger, but don't
+    call the booker or count an error (it showed as errors=47 on the demo)."""
+    for username, password in (("", ""), ("someone", ""), ("", "secret-placeholder")):
+        seen = _scan_with_credentials(username, password)
+        s = seen["summary"]
+        assert seen["book_calls"] == [], f"booker called without credentials: {seen['book_calls']}"
+        assert seen["prices"] == seen["dates"], "prices must still be recorded"
+        assert seen["triggers"] == seen["dates"], "trigger notifications must still fire"
+        assert (s["trigger_count"], s["booking_count"], s["error_count"]) == (2, 0, 0), s
+        assert seen["finish"]["error_count"] == 0 and seen["finish"]["booking_count"] == 0
+        assert seen["errors"] == [], "no error alert without credentials"
+        assert seen["already_booked_checks"] == 2, "is_already_booked guard still runs first"
+
+    with open("agent.py") as f:
+        src = f.read()
+    assert "no Delta credentials configured" in src
+    assert "db.is_already_booked(" in src, "is_already_booked guard must stay"
+
+
+def test_credentials_set_still_books_as_before():
+    """With a Delta login the booker is called exactly as before: one booking
+    per route per scan; a failed booking still counts as an error."""
+    import booker as bkr
+
+    ok = bkr.BookingResult(success=True, pnr="ABC123", cancel_by="2026-12-01", dry_run=True)
+    seen = _scan_with_credentials("placeholder-user", "placeholder-pass", booker_result=ok)
+    assert seen["book_calls"] == seen["dates"][:1], f"expected one booking call, got {seen['book_calls']}"
+    assert (seen["summary"]["booking_count"], seen["summary"]["error_count"]) == (1, 0)
+
+    failed = bkr.BookingResult(success=False, error="selector changed", dry_run=True)
+    seen = _scan_with_credentials("placeholder-user", "placeholder-pass", booker_result=failed)
+    assert seen["book_calls"] == seen["dates"], "a failed booking doesn't use up the per-route limit"
+    assert (seen["summary"]["booking_count"], seen["summary"]["error_count"]) == (0, 2)
+    assert len(seen["errors"]) == 2
+
+
+# ---------------------------------------------------------------------------
 # Runner
 # ---------------------------------------------------------------------------
 
@@ -540,6 +636,8 @@ TESTS = [
     test_scan_size_within_ci_budget,
     test_tokyo_route_is_haneda,
     test_snapshot_omits_unconfigured_routes,
+    test_no_credentials_skips_booking_without_error,
+    test_credentials_set_still_books_as_before,
 ]
 
 if __name__ == "__main__":

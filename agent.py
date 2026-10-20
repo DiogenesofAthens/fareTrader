@@ -172,7 +172,19 @@ def run_scan() -> dict:
                 continue
 
             # ----------------------------------------------------------
-            # 6. Book it
+            # 6. No Delta login (e.g. the CI demo scan): nothing can be
+            #    booked, so don't attempt it or count it as an error. The
+            #    price and trigger notification above are already recorded.
+            # ----------------------------------------------------------
+            if not (config.DELTA_USERNAME and config.DELTA_PASSWORD):
+                log.info(
+                    "Would auto-book %s→%s %s at $%.0f (no Delta credentials configured)",
+                    route.origin, route.destination, travel_date, flight.price_usd,
+                )
+                continue
+
+            # ----------------------------------------------------------
+            # 7. Book it
             # ----------------------------------------------------------
             result = booker.book_flight(
                 origin=route.origin,

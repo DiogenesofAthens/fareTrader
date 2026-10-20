@@ -50,8 +50,8 @@ agent.py     — Orchestrator + scheduler + CLI. Ties everything together.
 **Core scan loop** (`agent.run_scan()`): for each `Route × date`, the agent:
 1. Calls `scanner.get_price()` → records result to `db.insert_price()`
 2. If price ≤ `route.max_price`, fires `notify.price_trigger_found()`
-3. If `route.auto_book` is True and the slot isn't already held, calls `booker.book_flight()`
-4. On success, calls `db.insert_booking()` + `notify.booking_confirmed()`
+3. If `route.auto_book` is True, the slot isn't already held and the per-route limit isn't hit, calls `booker.book_flight()`. If `DELTA_USERNAME`/`DELTA_PASSWORD` aren't set (as in the CI demo scan), it logs "Would auto-book … (no Delta credentials configured)" at INFO instead and skips the booker; the price and trigger are still recorded and neither `error_count` nor `booking_count` changes.
+4. On success, calls `db.insert_booking()` + `notify.booking_confirmed()`. A failed booking attempt (with credentials set) counts as an error.
 
 After all routes, `agent._check_cancel_deadlines()` fires `notify.cancel_deadline_warning()` for any held booking within 7 days of its cancellation deadline.
 
@@ -64,6 +64,8 @@ After all routes, `agent._check_cancel_deadlines()` fires `notify.cancel_deadlin
 **Dates scanned:** Only Fridays and Saturdays within each window in `config.DATE_WINDOWS`. The default is a `RollingDateWindow(SCAN_HORIZON_START_DAYS=14, SCAN_HORIZON_END_DAYS=126)`, i.e. 2 to 18 weeks after the scan date: about 33 dates per route, ~130 lookups per scan. It is recomputed on every read of `.start`/`.end`, so it never expires (the old fixed Jun–Oct 2026 window left nothing to scan after Oct 31). A fixed `DateWindow("YYYY-MM-DD", "YYYY-MM-DD")` still works alongside it. Don't widen the horizon past ~144 lookups per scan, the largest size proven in CI against the 30-minute job timeout; `test_scan_size_within_ci_budget` enforces this.
 
 **Routes:** ATL→CDG, ATL→HND, ATL→LHR (alert only), JFK→MXP, all Delta One. Tokyo is Haneda: Delta moved all its Tokyo flights from Narita to Haneda in 2020, and ATL→NRT only ever returned Korean Air-operated connections, which the scanner rejects. A route to an airport Delta doesn't operate will never price. The snapshot export leaves out rows for routes no longer in `config.ROUTES`; they stay in the database.
+
+**Thresholds (`max_price`)** were set for summer fares and haven't been recalibrated for the rolling window. Winter Delta One fares come in cheap buckets that sit under most of them: the Oct 20, 2026 scan triggered 57 of 128 dates (ATL–HND's everyday fare is $6,211 against $6,500). Recalibrate from the latest scan's per-route prices, and keep the scan-wide trigger rate well below `QUARANTINE_TRIGGER_RATE` (0.9).
 
 ## Environment variables
 
