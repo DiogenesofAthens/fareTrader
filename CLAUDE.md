@@ -65,7 +65,7 @@ After all routes, `agent._check_cancel_deadlines()` fires `notify.cancel_deadlin
 
 **Routes:** ATL→CDG, ATL→HND, ATL→LHR (alert only), JFK→MXP, all Delta One. Tokyo is Haneda: Delta moved all its Tokyo flights from Narita to Haneda in 2020, and ATL→NRT only ever returned Korean Air-operated connections, which the scanner rejects. A route to an airport Delta doesn't operate will never price. The snapshot export leaves out rows for routes no longer in `config.ROUTES`; they stay in the database.
 
-**Thresholds (`max_price`)** were set for summer fares and haven't been recalibrated for the rolling window. Winter Delta One fares come in cheap buckets that sit under most of them: the Oct 20, 2026 scan triggered 57 of 128 dates (ATL–HND's everyday fare is $6,211 against $6,500). Recalibrate from the latest scan's per-route prices, and keep the scan-wide trigger rate well below `QUARANTINE_TRIGGER_RATE` (0.9).
+**Thresholds (`max_price`)** were recalibrated on Oct 20, 2026 to sit just under each route's cheap winter fare bucket: CDG $4,500, HND $5,600, LHR $3,900, MXP $3,500. On that day's scan, the old summer thresholds triggered 57 of 128 dates and these trigger 16 (12.5%). Winter Delta One fares come in cheap buckets well below the median (e.g. MXP median $8,379, bucket $3,456), so "x% below median" doesn't work. Set thresholds under the buckets you'd actually buy. Recalibrate when the season changes, and keep the scan-wide trigger rate well below `QUARANTINE_TRIGGER_RATE` (0.9).
 
 ## Environment variables
 
