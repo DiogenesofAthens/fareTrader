@@ -43,13 +43,15 @@ _WEEKDAY_FRIDAY   = 4
 _WEEKDAY_SATURDAY = 5
 
 
-def build_date_list() -> list[str]:
+def build_date_list(today: Optional[date] = None) -> list[str]:
     """
     Return sorted list of YYYY-MM-DD strings that are Fridays or Saturdays
-    within any configured DateWindow.
+    within any configured window. Rolling windows are measured from *today*
+    (default: the real date).
     """
     dates: set[str] = set()
-    for window in config.DATE_WINDOWS:
+    for configured in config.DATE_WINDOWS:
+        window = configured.resolve(today)
         start = date.fromisoformat(window.start)
         end   = date.fromisoformat(window.end)
         current = start

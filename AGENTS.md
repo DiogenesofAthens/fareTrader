@@ -61,7 +61,9 @@ After all routes, `agent._check_cancel_deadlines()` fires `notify.cancel_deadlin
 
 **Price scraping** (`scanner.get_price()`): Google Flights first (extracts prices from `AF_initDataCallback` JSON blobs, valid range `$500–$20,000`; regex fallback `$500–$20,000`), then Kayak fallback (data-price attributes → JSON blobs → regex, valid range `$500–$25,000`). Applies `REQUEST_DELAY_SECONDS = 3.0` after every request.
 
-**Dates scanned:** Only Fridays and Saturdays within each `DateWindow` in `config.py`.
+**Dates scanned:** Only Fridays and Saturdays within each window in `config.DATE_WINDOWS`. The default is a `RollingDateWindow` from 14 to 126 days after the scan date (about 33 dates per route), so it never expires; fixed `DateWindow`s still work. Keep scans at or under ~144 lookups, the largest size proven in CI against the 30-minute timeout.
+
+**Routes:** Tokyo is Haneda (`ATL→HND`). Delta left Narita in 2020, and a route to an airport Delta doesn't operate never prices.
 
 ## Environment variables
 

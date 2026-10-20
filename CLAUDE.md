@@ -61,7 +61,9 @@ After all routes, `agent._check_cancel_deadlines()` fires `notify.cancel_deadlin
 
 **Price scraping** (`scanner.get_price()`): Google Flights first, then Kayak as a fallback. Google's URL is a `tfs` protobuf carrying the cabin (seat field 9) and a Delta-only airline filter (leg field 6 = `DL`). The parser reads only the per-itinerary `aria-label`s ("From 9334 US dollars. Nonstop flight with Delta. …") and keeps Delta-marketed, Delta-operated, single-cabin itineraries between the cabin floor (`_min_plausible`) and `$20,000`. Kayak counts only `data-price` attributes (`$25,000` cap); its HTML is client-rendered, so it rarely returns anything. Unattributable numbers (JSON blobs, `$` amounts) are never used: in Aug–Oct 2026 they recorded other airlines' and mixed-cabin fares and tripped the quarantine on nearly every scan. Applies `REQUEST_DELAY_SECONDS = 3.0` after every request.
 
-**Dates scanned:** Only Fridays and Saturdays within each `DateWindow` in `config.py`.
+**Dates scanned:** Only Fridays and Saturdays within each window in `config.DATE_WINDOWS`. The default is a `RollingDateWindow(SCAN_HORIZON_START_DAYS=14, SCAN_HORIZON_END_DAYS=126)`, i.e. 2 to 18 weeks after the scan date: about 33 dates per route, ~130 lookups per scan. It is recomputed on every read of `.start`/`.end`, so it never expires (the old fixed Jun–Oct 2026 window left nothing to scan after Oct 31). A fixed `DateWindow("YYYY-MM-DD", "YYYY-MM-DD")` still works alongside it. Don't widen the horizon past ~144 lookups per scan, the largest size proven in CI against the 30-minute job timeout; `test_scan_size_within_ci_budget` enforces this.
+
+**Routes:** ATL→CDG, ATL→HND, ATL→LHR (alert only), JFK→MXP, all Delta One. Tokyo is Haneda: Delta moved all its Tokyo flights from Narita to Haneda in 2020, and ATL→NRT only ever returned Korean Air-operated connections, which the scanner rejects. A route to an airport Delta doesn't operate will never price. The snapshot export leaves out rows for routes no longer in `config.ROUTES`; they stay in the database.
 
 ## Environment variables
 

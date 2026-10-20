@@ -58,15 +58,17 @@ Edit `config.py` to set your routes, price thresholds, and date windows:
 ```python
 ROUTES = [
     Route("ATL", "CDG", "delta_one", max_price=5000.0, auto_book=True),
+    Route("ATL", "HND", "delta_one", max_price=6500.0, auto_book=True),   # Tokyo-Haneda
     Route("ATL", "LHR", "delta_one", max_price=4000.0, auto_book=False),  # alert only
 ]
 
 DATE_WINDOWS = [
-    DateWindow("2026-06-01", "2026-10-31"),
+    RollingDateWindow(14, 126),                # 2–18 weeks after each scan; never expires
+    # DateWindow("2027-03-01", "2027-04-30"),  # fixed windows work too
 ]
 ```
 
-Set `auto_book=False` on any route to receive a Pushover alert without actually booking.
+Set `auto_book=False` on any route to receive a Pushover alert without actually booking. Only Delta-operated itineraries count, so pick airports Delta actually serves (Tokyo is Haneda, not Narita).
 
 ---
 
