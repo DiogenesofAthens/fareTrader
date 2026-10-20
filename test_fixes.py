@@ -391,6 +391,128 @@ def test_build_date_list_only_fri_sat():
 
 
 # ---------------------------------------------------------------------------
+# Rolling date window (the fixed Jun–Oct 2026 window expired on Oct 31)
+# ---------------------------------------------------------------------------
+
+def test_rolling_window_moves_with_scan_date():
+    """Dates are Fri/Sat between +14 and +126 days of the scan date, whatever that date is."""
+    from datetime import timedelta
+
+    import config
+    import scanner
+    importlib.reload(scanner)
+
+    for today in (date(2026, 10, 20), date(2026, 11, 1), date(2027, 6, 15)):
+        dates = scanner.build_date_list(today=today)
+        lo = today + timedelta(days=config.SCAN_HORIZON_START_DAYS)
+        hi = today + timedelta(days=config.SCAN_HORIZON_END_DAYS)
+        assert 30 <= len(dates) <= 34, f"{today}: expected ~33 Fri/Sat dates, got {len(dates)}"
+        assert date.fromisoformat(dates[0]) >= lo and date.fromisoformat(dates[-1]) <= hi, \
+            f"{today}: {dates[0]}..{dates[-1]} outside {lo}..{hi}"
+        for d in dates:
+            assert date.fromisoformat(d).weekday() in (4, 5), f"{d} is not a Friday or Saturday"
+
+    # The day after the old fixed window ended, there is still a full window ahead
+    after_old_end = scanner.build_date_list(today=date(2026, 11, 1))
+    assert all(d > "2026-10-31" for d in after_old_end)
+    assert scanner.build_date_list(today=date(2026, 10, 20)) != after_old_end, "window did not roll"
+
+
+def test_date_windows_interface_for_consumers():
+    """export_snapshot and app.py read w.start / w.end as ISO strings; fixed
+    DateWindows must keep working alongside rolling ones."""
+    import json
+
+    import config
+    import scanner
+    importlib.reload(scanner)
+
+    exported = [{"start": w.start, "end": w.end} for w in config.DATE_WINDOWS]
+    json.dumps(exported)
+    for w in exported:
+        assert date.fromisoformat(w["start"]) <= date.fromisoformat(w["end"])
+        assert w["start"] > date.today().isoformat(), "rolling window should start in the future"
+
+    original = config.DATE_WINDOWS
+    try:
+        config.DATE_WINDOWS = [
+            config.DateWindow("2027-03-01", "2027-03-07"),     # Fri 5th, Sat 6th
+            config.RollingDateWindow(14, 20),
+        ]
+        today = date(2027, 2, 15)                              # rolling: Mar 1–7 too
+        assert scanner.build_date_list(today=today) == ["2027-03-05", "2027-03-06"], \
+            "fixed + overlapping rolling windows should merge without duplicates"
+    finally:
+        config.DATE_WINDOWS = original
+
+
+def test_scan_size_within_ci_budget():
+    """Each lookup sleeps REQUEST_DELAY_SECONDS (twice on a Kayak fallback) and
+    CI has a 30-min timeout. The largest scans proven in CI were 128–144 lookups
+    (Jul 2026); don't widen the horizon past that without re-checking run times."""
+    import config
+    import scanner
+    importlib.reload(scanner)
+
+    for today in (date(2026, 10, 20), date(2027, 1, 1), date(2027, 5, 7)):
+        lookups = len(scanner.build_date_list(today=today)) * len(config.ROUTES)
+        assert 16 < lookups <= 144, f"{today}: {lookups} lookups per scan"
+
+
+# ---------------------------------------------------------------------------
+# Tokyo is Haneda (Delta left Narita in 2020; ATL→NRT never priced)
+# ---------------------------------------------------------------------------
+
+def test_tokyo_route_is_haneda():
+    import config
+    assert not [r for r in config.ROUTES if "NRT" in (r.origin, r.destination)], "Delta doesn't fly ATL–NRT"
+    hnd = [r for r in config.ROUTES if (r.origin, r.destination) == ("ATL", "HND")]
+    assert len(hnd) == 1, "ATL→HND route missing"
+    r = hnd[0]
+    assert (r.cabin, r.max_price, r.auto_book) == ("delta_one", 6500.0, True), \
+        "threshold and auto_book should carry over from the old ATL→NRT route"
+
+
+def test_snapshot_omits_unconfigured_routes():
+    """Old ATL→NRT rows stay in the DB but must not reach the dashboard snapshot."""
+    import os as _os
+    import sqlite3
+    import tempfile
+    from datetime import timedelta
+
+    import config
+    import db
+    import export_snapshot
+    importlib.reload(db)
+    importlib.reload(export_snapshot)
+
+    future = (date.today() + timedelta(days=30)).isoformat()
+    with tempfile.TemporaryDirectory() as tmp:
+        old_path = config.DB_PATH
+        config.DB_PATH = _os.path.join(tmp, "t.db")
+        try:
+            db.init_db()
+            db.insert_price("ATL", "NRT", "delta_one", future, 2000.0, "google_flights")
+            db.insert_price("ATL", "HND", "delta_one", future, 6211.0, "google_flights")
+            snap = export_snapshot.export()
+
+            con = sqlite3.connect(config.DB_PATH)
+            kept = con.execute("SELECT COUNT(*) FROM price_history WHERE destination='NRT'").fetchone()[0]
+            con.close()
+            assert kept == 1, "history rows must not be deleted"
+        finally:
+            config.DB_PATH = old_path
+
+    assert {(p["origin"], p["destination"]) for p in snap["price_history"]} == {("ATL", "HND")}
+    assert "ATL|HND" in snap["price_summary"] and "ATL|NRT" not in snap["price_summary"]
+    all_routes = snap["price_summary"][""]
+    assert [row["min_price"] for row in all_routes] == [6211.0], f"NRT leaked into all-routes summary: {all_routes}"
+    configured = {(r["origin"], r["destination"]) for r in snap["config"]["routes"]}
+    assert ("ATL", "HND") in configured and ("ATL", "NRT") not in configured
+    assert all("start" in w and "end" in w for w in snap["config"]["date_windows"])
+
+
+# ---------------------------------------------------------------------------
 # Runner
 # ---------------------------------------------------------------------------
 
@@ -413,6 +535,11 @@ TESTS = [
     test_google_tfs_encodes_cabin_and_route,
     test_quarantine_purges_implausible_scan,
     test_build_date_list_only_fri_sat,
+    test_rolling_window_moves_with_scan_date,
+    test_date_windows_interface_for_consumers,
+    test_scan_size_within_ci_budget,
+    test_tokyo_route_is_haneda,
+    test_snapshot_omits_unconfigured_routes,
 ]
 
 if __name__ == "__main__":

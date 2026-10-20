@@ -52,9 +52,24 @@ def _savings_captured(con: sqlite3.Connection) -> float:
     return round(total)
 
 
+def _configured_routes_sql() -> tuple[str, list]:
+    """SQL predicate matching price rows for the routes in config.ROUTES.
+
+    price_history keeps rows for routes that have been dropped from config
+    (ATL→NRT, replaced by ATL→HND in Oct 2026). They stay in the database as
+    history but are left out of the snapshot, so the dashboard never shows a
+    route the agent no longer monitors.
+    """
+    pairs = sorted({(r.origin, r.destination) for r in config.ROUTES})
+    if not pairs:
+        return "0", []
+    sql = "(" + " OR ".join("(origin=? AND destination=?)" for _ in pairs) + ")"
+    return sql, [code for pair in pairs for code in pair]
+
+
 def _price_summary(con: sqlite3.Connection, origin: str | None, destination: str | None) -> list[dict]:
-    conds = ["travel_date >= date('now')"]
-    params: list = []
+    routes_sql, params = _configured_routes_sql()
+    conds = ["travel_date >= date('now')", routes_sql]
     if origin:
         conds.append("origin=?")
         params.append(origin)
@@ -87,6 +102,7 @@ def export() -> dict:
     ).fetchone()
     total_triggers = con.execute("SELECT COALESCE(SUM(trigger_count), 0) FROM scan_log").fetchone()[0]
     total_scans = con.execute("SELECT COUNT(*) FROM scan_log").fetchone()[0]
+    routes_sql, routes_params = _configured_routes_sql()
 
     snapshot = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -122,8 +138,8 @@ def export() -> dict:
         "bookings": _rows(con, "SELECT * FROM bookings ORDER BY travel_date"),
         "price_history": _rows(
             con,
-            "SELECT * FROM price_history ORDER BY scanned_at DESC LIMIT ?",
-            (PRICE_HISTORY_LIMIT,),
+            f"SELECT * FROM price_history WHERE {routes_sql} ORDER BY scanned_at DESC LIMIT ?",
+            (*routes_params, PRICE_HISTORY_LIMIT),
         ),
         "scan_log": _rows(
             con,
