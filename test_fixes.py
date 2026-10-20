@@ -475,8 +475,8 @@ def test_tokyo_route_is_haneda():
     hnd = [r for r in config.ROUTES if (r.origin, r.destination) == ("ATL", "HND")]
     assert len(hnd) == 1, "ATL→HND route missing"
     r = hnd[0]
-    assert (r.cabin, r.max_price, r.auto_book) == ("delta_one", 6500.0, True), \
-        "threshold and auto_book should carry over from the old ATL→NRT route"
+    assert (r.cabin, r.auto_book) == ("delta_one", True), \
+        "cabin and auto_book should carry over from the old ATL→NRT route"
 
 
 def test_snapshot_omits_unconfigured_routes():

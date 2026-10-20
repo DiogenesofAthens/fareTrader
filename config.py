@@ -27,10 +27,10 @@ class Route:
 # flights there from Narita in 2020 and flies ATL–HND nonstop. ATL→NRT only
 # returned Korean Air-operated connections, which the scanner rejects.
 ROUTES: list[Route] = [
-    Route("ATL", "CDG", "delta_one", 5000.0, auto_book=True),
-    Route("ATL", "HND", "delta_one", 6500.0, auto_book=True),
-    Route("ATL", "LHR", "delta_one", 4000.0, auto_book=False),  # alert only
-    Route("JFK", "MXP", "delta_one", 4200.0, auto_book=True),
+    Route("ATL", "CDG", "delta_one", 4500.0, auto_book=True),
+    Route("ATL", "HND", "delta_one", 5600.0, auto_book=True),
+    Route("ATL", "LHR", "delta_one", 3900.0, auto_book=False),  # alert only
+    Route("JFK", "MXP", "delta_one", 3500.0, auto_book=True),
 ]
 
 # ---------------------------------------------------------------------------

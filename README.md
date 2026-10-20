@@ -57,9 +57,9 @@ Edit `config.py` to set your routes, price thresholds, and date windows:
 
 ```python
 ROUTES = [
-    Route("ATL", "CDG", "delta_one", max_price=5000.0, auto_book=True),
-    Route("ATL", "HND", "delta_one", max_price=6500.0, auto_book=True),   # Tokyo-Haneda
-    Route("ATL", "LHR", "delta_one", max_price=4000.0, auto_book=False),  # alert only
+    Route("ATL", "CDG", "delta_one", max_price=4500.0, auto_book=True),
+    Route("ATL", "HND", "delta_one", max_price=5600.0, auto_book=True),   # Tokyo-Haneda
+    Route("ATL", "LHR", "delta_one", max_price=3900.0, auto_book=False),  # alert only
 ]
 
 DATE_WINDOWS = [
