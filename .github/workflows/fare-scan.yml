@@ -25,10 +25,13 @@ jobs:
           python-version: "3.11"
           cache: pip
 
+      # No `playwright install`: the scanner uses plain HTTP, and with no
+      # Delta credentials here the agent never calls booker, which is the
+      # only code that launches a browser. The browser download pulled fonts
+      # from Ubuntu's apt mirrors, and a mirror outage on Nov 11, 2026 failed
+      # the whole run. Add it back (with a retry) if CI ever gets credentials.
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          playwright install --with-deps chromium
+        run: pip install -r requirements.txt
 
       # CI keeps its own committed database at data/scans.db so price history
       # accumulates across runs. The local bookings.db stays gitignored —
